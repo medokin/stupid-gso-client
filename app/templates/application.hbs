@@ -10,23 +10,16 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">StupidGso</a>
+                {{#if isLoading}}
+                    <div class="navbar-text navbar-right spinner" style="float:left;">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </div>
+                {{/if}}
             </div>
-            {{#if isLoading}}
-            <div class="navbar-text navbar-right spinner">
-                <span class="glyphicon glyphicon-refresh"></span>
-            </div>
-            {{/if}}
-            <div class="navbar-collapse collapse">
-            </div><!--/.nav-collapse -->
         </div> 
 
         <div class="row">
             <div class="col-md-12">
-
-
-
-
-
                 {{outlet}}
             </div>
         </div>
