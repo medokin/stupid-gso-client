@@ -1,0 +1,36 @@
+{{#if notEmpty}}
+    <table class="table table-bordered table-condensed" style="vertical-align:bottom;">
+        <thead>
+        <th>#</th>
+        <th>Mo</th>
+        <th>Di</th>
+        <th>Mi</th>
+        <th>Do</th>
+        <th>Fr</th>
+        </thead>
+        <tbody>
+
+        {{#each row in filteredList}}
+            <tr>
+                {{#each item in row}}
+                    {{#if item}}
+                        <td {{bind-attr class="item.red:warning"}}>
+                            {{{item.content}}}
+                        </td>
+                    {{else}}
+                        <td>
+                            <br/><br/><br/>
+                        </td>
+                    {{/if}}
+                {{/each}}
+            </tr>
+
+        {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <div class="alert alert-info">Keine Stunden für diese Woche eigetragen.</div>
+{{/if}}
+
+
+

@@ -1,0 +1,19 @@
+<div class="row">
+    <div {{bind-attr class="isSelected:col-md-2:col-md-12"}}>
+        {{input type='text' class='form-control' value=controller.filterString placeholder='Suche'}}
+        <br/>
+
+        <div class="list-group">
+            {{#each item in filteredList}}
+                {{#link-to 'element' type item.name class='list-group-item'}} {{item.name}} {{/link-to}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div {{bind-attr class="isSelected:col-md-10:hidden"}}>
+        {{outlet}}
+    </div>
+</div>
+
+
+

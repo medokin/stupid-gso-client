@@ -1,0 +1,34 @@
+<div>
+    <div class="container" id="main">
+
+        <!-- Static navbar -->
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">StupidGso</a>
+            </div>
+            {{#if isLoading}}
+            <div class="navbar-text navbar-right spinner">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </div>
+            {{/if}}
+            <div class="navbar-collapse collapse">
+            </div><!--/.nav-collapse -->
+        </div> 
+
+        <div class="row">
+            <div class="col-md-12">
+
+
+
+
+
+                {{outlet}}
+            </div>
+        </div>
+    </div>
+</div>
