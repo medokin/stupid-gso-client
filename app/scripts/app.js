@@ -2,6 +2,8 @@ var StupidGsoClient = window.StupidGsoClient = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
 
+Ember.FEATURES["query-params"] = true;
+
 /* Order and include as you please. */
 require('scripts/base/*');
 require('scripts/controllers/*');

@@ -5,7 +5,7 @@
 
         <div class="list-group">
             {{#each item in filteredList}}
-                {{#link-to 'element' type item.name class='list-group-item'}} {{item.name}} {{/link-to}}
+                {{#link-to 'element' type item.name week=false class='list-group-item'}} {{item.name}} {{/link-to}}
             {{/each}}
         </div>
     </div>
