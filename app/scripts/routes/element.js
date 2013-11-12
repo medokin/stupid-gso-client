@@ -4,15 +4,6 @@ StupidGsoClient.ElementRoute = Ember.Route.extend({
         var type = this.controllerFor("types").get("type");
         controller.set('type', type);
         controller.set('element', params.element);
-        controller.set('weeks', Ember.Set.create());
-        Ember.$.getJSON('http://api.gso.medok.in/weeks-available.json').then(function(data){
-            var dataSet = Ember.Set.create();
-            data.forEach(function(item, index){
-                dataSet.add(item);
-            })
-
-            controller.set('weeks', dataSet.toArray());
-        })
 
         if (queryParams.week != undefined){
             return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element+'/'+queryParams.week+'/week.json')
