@@ -1,4 +1,4 @@
-StupidGsoClient.TimetableController = Ember.ArrayController.extend({
+StupidGsoClient.TimetableBaseController = Ember.ArrayController.extend({
     filteredList: function(){
         var content = this.get('content');
         var items = [];

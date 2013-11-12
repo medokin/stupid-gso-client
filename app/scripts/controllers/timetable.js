@@ -1,5 +1,5 @@
-StupidGsoClient.ElementController = StupidGsoClient.TimetableController.extend({
-    needs: ['types'],
+StupidGsoClient.TimetableController = StupidGsoClient.TimetableBaseController.extend({
+    needs: ['elements'],
     type: '',
     element: '',
     weeks: null,

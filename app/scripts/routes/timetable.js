@@ -1,16 +1,17 @@
-StupidGsoClient.ElementRoute = Ember.Route.extend({
+StupidGsoClient.TimetableRoute = Ember.Route.extend({
     model: function (params, queryParams, transition) {
-        var controller = this.controllerFor('element');
-        var type = this.controllerFor("types").get("type");
+        var controller = this.controllerFor('timetable');
+        var type = this.modelFor('type')
+
         controller.set('type', type);
-        controller.set('element', params.element);
+        controller.set('element', params.element_name);
 
         if (queryParams.week != undefined){
-            return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element+'/'+queryParams.week+'/week.json')
+            return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element_name+'/'+queryParams.week+'/week.json')
         }
 
         queryParams.week = this.getWeekNumber(new Date());
-        return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element+'/week.json')
+        return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element_name+'/week.json')
     },
 
     getWeekNumber: function (d) {
