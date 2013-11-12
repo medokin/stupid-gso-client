@@ -9,8 +9,6 @@ StupidGsoClient.TimetableRoute = Ember.Route.extend({
         if (queryParams.week != undefined){
             return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element_name+'/'+queryParams.week+'/week.json')
         }
-
-        queryParams.week = this.getWeekNumber(new Date());
         return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+params.element_name+'/week.json')
     },
 
