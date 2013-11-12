@@ -4900,6 +4900,9 @@ td.visible-print {
 html, body {
   margin: 5px 0; }
 
+html {
+  overflow-y: scroll; }
+
 table td {
   vertical-align: middle !important; }
 
