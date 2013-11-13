@@ -1,7 +1,7 @@
 {{#if notEmpty}}
     <div class="btn-group btn-group-justified">
-        {{#each week in weeks}}
-            {{#link-to 'element' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
+        {{#each week in weeks.content}}
+            {{#link-to 'timetable' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
         {{/each}}
     </div>
 
