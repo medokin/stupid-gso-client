@@ -1,13 +1,6 @@
 {{#if notEmpty}}
-
-    <br/>
-    {{#link-to 'timetable' type element class='btn btn-primary' role='button'}} AKTIV {{week}} {{/link-to}}
-    {{#link-to 'elements' type class='btn btn-primary' role='button'}} NICHT AKTIV {{week}} {{/link-to}}
-    <br/>
-    <br/>
-
     <div class="btn-group btn-group-justified">
-        {{#each week in weeks}}
+        {{#each week in weeks.content}}
             {{#link-to 'timetable' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
         {{/each}}
     </div>
