@@ -1,11 +1,10 @@
+<div class="btn-group btn-group-justified">
+    {{#each week in weeks.content}}
+        {{#link-to 'timetable' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
+    {{/each}}
+</div>
+<br/>
 {{#if notEmpty}}
-    <div class="btn-group btn-group-justified">
-        {{#each week in weeks.content}}
-            {{#link-to 'timetable' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
-        {{/each}}
-    </div>
-
-    <br/>
 
     <table class="table table-bordered table-condensed" style="vertical-align:bottom;">
         <thead>
@@ -21,6 +20,7 @@
         {{#each row in filteredList}}
             <tr>
                 {{#each item in row}}
+                {{#group}}
                     {{#if item}}
                         <td {{bind-attr class="item.red:warning"}}>
                             {{{item.content}}}
@@ -30,6 +30,7 @@
                             <br/><br/><br/>
                         </td>
                     {{/if}}
+                {{/group}}
                 {{/each}}
             </tr>
 
@@ -37,7 +38,7 @@
         </tbody>
     </table>
 {{else}}
-    <div class="alert alert-info">Keine Stunden für diese Woche eigetragen.</div>
+    <div class="alert alert-info">Keine Stunden für KW: {{weeks.selected}} eigetragen.</div>
 {{/if}}
 
 

@@ -1,3 +1,29 @@
+Ember.EventDispatcher.reopen({
+    events: {
+        keydown     : 'keyDown',
+        keyup       : 'keyUp',
+        keypress    : 'keyPress',
+        mousedown   : 'mouseDown',
+        mouseup     : 'mouseUp',
+        contextmenu : 'contextMenu',
+        click       : 'click',
+        dblclick    : 'doubleClick',
+        mousemove   : 'mouseMove',
+        focusin     : 'focusIn',
+        focusout    : 'focusOut',
+        submit      : 'submit',
+        input       : 'input',
+        change      : 'change',
+        dragstart   : 'dragStart',
+        drag        : 'drag',
+        dragenter   : 'dragEnter',
+        dragleave   : 'dragLeave',
+        dragover    : 'dragOver',
+        drop        : 'drop',
+        dragend     : 'dragEnd'
+    }
+});
+
 var StupidGsoClient = window.StupidGsoClient = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
