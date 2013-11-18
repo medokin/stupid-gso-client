@@ -190,7 +190,8 @@ module.exports = function(grunt) {
                      'sass:compile',
                      'less:compile',
                      'stylus:compile',
-                     'copy:cssToResult'
+                     'copy:cssToResult',
+                     'copy:bootstrapFonts'
                      // ToDo: Add 'autoprefixer'
                      ]));
 

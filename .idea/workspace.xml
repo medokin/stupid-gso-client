@@ -2,59 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bafb1906-9d2f-466d-bf40-b59ebfbc7e6f" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\.editorconfig" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\.gitattributes" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\libs\ember.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\app.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\base\filter_controller.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\base\timetableBase.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\controllers\elements.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\controllers\timetable.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\controllers\weeks.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\helpers\group.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\router.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\routes\element.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\routes\elements.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\routes\timetable.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\routes\type.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\routes\types.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\scripts\store.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\fonts\glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\fonts\glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\fonts\glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\style.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\style.scss" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\elements.hbs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\pages\about.hbs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\pages\legal.hbs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\timetable.hbs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\types.hbs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\scripts\0ef3de21.templates.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\scripts\5770bf28.components.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\scripts\ba991a1a.main.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\scripts\becfa66c.plugins.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\styles\c6df71b9.main.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\styles\fonts\glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\styles\fonts\glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\styles\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\dist\styles\fonts\glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\lib\chai.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\lib\expect.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\lib\mocha\mocha.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\lib\mocha\mocha.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\test\spec\test.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.bowerrc" afterPath="$PROJECT_DIR$/.bowerrc" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\components\pretty-color.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\helpers\reverse-word.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\routes\component_test.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\routes\helper_test.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\styles\app.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\component-test.hbs" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\helper-test.hbs" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\app\templates\index.hbs" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\tests\acceptance\component_test.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Nikodem\WebstormProjects\gso-app-kit\tests\acceptance\helper_test.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.jshintrc" afterPath="$PROJECT_DIR$/.jshintrc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.js" afterPath="$PROJECT_DIR$/app/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/application.hbs" afterPath="$PROJECT_DIR$/app/templates/application.hbs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower.json" afterPath="$PROJECT_DIR$/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tasks/options/copy.js" afterPath="$PROJECT_DIR$/tasks/options/copy.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/index.html" afterPath="$PROJECT_DIR$/app/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/router.js" afterPath="$PROJECT_DIR$/app/router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="gso-app-kit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,19 +45,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/adapters/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0194508" vertical-offset="0" max-vertical-offset="874">
+            <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pretty-color.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/pretty-color.js">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+            <state line="17" column="9" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="37" selection-start="483" selection-end="483" vertical-scroll-proportion="0.2682927" vertical-offset="102" max-vertical-offset="1411">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ember.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/ember-canary/ember.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="30" column="3" selection-start="769" selection-end="769" vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="654619">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ember.prod.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/ember-canary/ember.prod.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="633777">
               <folding />
             </state>
           </provider>
@@ -108,6 +112,15 @@
   <component name="GitLogSettings">
     <option name="myDateState">
       <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/app/adapters/application.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/index.html" />
+      </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
@@ -215,6 +228,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,7 +263,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -260,6 +273,11 @@
     <property name="FullScreen" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Nikodem\WebstormProjects\gso-app-kit\vendor\emberjs-canary" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
@@ -327,26 +345,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16777778" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24986821" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11228255" sideWeight="0.8322222" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -361,16 +379,58 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/components/pretty-color.js">
+    <entry file="file://$PROJECT_DIR$/app/adapters/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/adapters/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0194508" vertical-offset="0" max-vertical-offset="874">
+        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/adapters/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/ember-canary/ember.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="3" selection-start="769" selection-end="769" vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="654619">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/ember-canary/ember.prod.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="633777">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="9" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="723">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="37" selection-start="483" selection-end="483" vertical-scroll-proportion="0.2682927" vertical-offset="102" max-vertical-offset="1411">
           <folding />
         </state>
       </provider>

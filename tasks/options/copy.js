@@ -23,6 +23,13 @@ module.exports = {
     src: ['**/*.css'],
     dest: 'tmp/result/assets'
   },
+  
+  bootstrapFonts: {
+    expand: true,
+    cwd: 'vendor/bootstrap/fonts',
+    src: ['*'],
+    dest: 'tmp/result/assets/fonts'
+  },
 
   // Assembles everything in `tmp/result`.
   // The sole purpose of this task is to keep things neat. Gathering everything in one

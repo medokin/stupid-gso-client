@@ -10,6 +10,8 @@ var App = Ember.Application.extend({
   Resolver: Resolver.default
 });
 
+Ember.FEATURES["query-params"] = true;
+
 Ember.RSVP.configure('onerror', function(error) {
   // ensure unhandled promises raise awareness.
   // may result in false negatives, but visibility is more important
