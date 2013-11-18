@@ -20,7 +20,6 @@
         {{#each row in filteredList}}
             <tr>
                 {{#each item in row}}
-                {{#group}}
                     {{#if item}}
                         <td {{bind-attr class="item.red:warning"}}>
                             {{{item.content}}}
@@ -30,7 +29,6 @@
                             <br/><br/><br/>
                         </td>
                     {{/if}}
-                {{/group}}
                 {{/each}}
             </tr>
 
