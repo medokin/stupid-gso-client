@@ -1,12 +1,16 @@
 {
-  "name": "stupid-gso-client",
-  "version": "0.0.0",
+  "name": "ember-app-kit",
   "dependencies": {
-    "ember": "1.0.0",
-    "ember-data-shim": "1.0.0-beta.2",
-    "bootstrap-sass": "~3.0.2"
+    "handlebars": "~1.1.2",
+    "jquery": "~1.9.1",
+    "qunit": "~1.12.0",
+    "ember": "~1.2.0-beta.1",
+    "ember-data": "~1.0.0-beta.3",
+    "ember-resolver": "git://github.com/stefanpenner/ember-jj-abrams-resolver.git#master",
+    "bootstrap": "~3.0.2"
   },
-  "devDependencies": {
-    "ember-mocha-adapter": "0.1.2"
+  "resolutions": {
+    "ember": "~1.2.0-beta.1",
+    "handlebars": "~1.1.2"
   }
 }
