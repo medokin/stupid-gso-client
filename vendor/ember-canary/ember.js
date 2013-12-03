@@ -8,7 +8,7 @@
 // ==========================================================================
 
 
- // Version: 1.3.0-beta.1+canary.8a10e4f2
+ // Version: 1.4.0-beta.1+canary.4ffecd62
 
 (function() {
 /*global __fail__*/
@@ -194,7 +194,7 @@ if (!Ember.testing) {
 // ==========================================================================
 
 
- // Version: 1.3.0-beta.1+canary.8a10e4f2
+ // Version: 1.4.0-beta.1+canary.4ffecd62
 
 (function() {
 var define, requireModule;
@@ -259,7 +259,7 @@ var define, requireModule;
 
   @class Ember
   @static
-  @version 1.3.0-beta.1+canary.8a10e4f2
+  @version 1.4.0-beta.1+canary.4ffecd62
 */
 
 if ('undefined' === typeof Ember) {
@@ -286,10 +286,10 @@ Ember.toString = function() { return "Ember"; };
 /**
   @property VERSION
   @type String
-  @default '1.3.0-beta.1+canary.8a10e4f2'
+  @default '1.4.0-beta.1+canary.4ffecd62'
   @final
 */
-Ember.VERSION = '1.3.0-beta.1+canary.8a10e4f2';
+Ember.VERSION = '1.4.0-beta.1+canary.4ffecd62';
 
 /**
   Standard environmental variables. You can define these in a global `ENV`
@@ -1665,6 +1665,8 @@ Ember.Instrumentation.instrument = function(name, payload, callback, binding) {
 
   @param {String} [pattern] Namespaced event name.
   @param {Object} [object] Before and After hooks.
+
+  @return {Subscriber}
 */
 Ember.Instrumentation.subscribe = function(pattern, object) {
   var paths = pattern.split("."), path, regex = [];
@@ -2789,7 +2791,7 @@ function setPath(root, path, value, tolerant) {
   keyName = path.slice(path.lastIndexOf('.') + 1);
 
   // get the first part of the part
-  path    = path.slice(0, path.length-(keyName.length+1));
+  path    = (path === keyName) ? keyName : path.slice(0, path.length-(keyName.length+1));
 
   // unless the path is this, look up the first part to
   // get the root
@@ -3973,20 +3975,20 @@ Ember.finishChains = function(obj) {
 
 
 (function() {
-/**
-  @module ember-metal
-*/
-
 if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+  /**
+    @module ember-metal
+  */
+
   var forEach = Ember.EnumerableUtils.forEach,
-      IS_BRACE_EXPANSION = /^\{([^.]*)\}$/;
+      BRACE_EXPANSION = /^((?:[^\.]*\.)*)\{(.*)\}$/;
 
   /**
     Expands `pattern`, invoking `callback` for each expansion.
 
     The only pattern supported is brace-expansion, anything else will be passed
-    once to `callback` directly.  Furthermore, brace-expansion is only applied to
-    the entire pattern, not to substrings.
+    once to `callback` directly. Brace expansion can only appear at the end of a
+    pattern, for example as the last item in a chain.
 
     Example
     ```js
@@ -3994,7 +3996,8 @@ if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
 
     Ember.expandProperties('foo.bar', echo);        //=> 'foo.bar'
     Ember.expandProperties('{foo,bar}', echo);      //=> 'foo', 'bar'
-    Ember.expandProperties('foo.{bar,baz}', echo);  //=> 'foo.{bar,baz}'
+    Ember.expandProperties('foo.{bar,baz}', echo);  //=> 'foo.bar', 'foo.baz'
+    Ember.expandProperties('{foo,bar}.baz', echo);  //=> '{foo,bar}.baz'
     ```
 
     @method
@@ -4004,12 +4007,18 @@ if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
     expansion, and is passed the expansion.
   */
   Ember.expandProperties = function (pattern, callback) {
-    if (IS_BRACE_EXPANSION.test(pattern)) {
-      forEach(pattern.substring(1, pattern.length-1).split(','), callback);
-      return;
-    }
+    var match, prefix, list;
 
-    callback(pattern);
+    if (match = BRACE_EXPANSION.exec(pattern)) {
+      prefix = match[1];
+      list = match[2];
+
+      forEach(list.split(','), function (suffix) {
+        callback(prefix + suffix);
+      });
+    } else {
+      callback(pattern);
+    }
   };
 }
 
@@ -4080,10 +4089,6 @@ var metaFor = Ember.meta, // utils.js
     generateGuid = Ember.generateGuid,
     IS_PATH = /[\.\*]/;
 
-if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-  var expandProperties = Ember.expandProperties;
-}
-
 // returns true if the passed path is just a keyName
 function isKeyName(path) {
   return path==='*' || !IS_PATH.test(path);
@@ -4107,20 +4112,10 @@ Ember.watch = function(obj, _keyPath) {
   // can't watch length on Array - it is special...
   if (_keyPath === 'length' && typeOf(obj) === 'array') { return; }
 
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_keyPath, function (keyPath) {
-      if (isKeyName(keyPath)) {
-        watchKey(obj, keyPath);
-      } else {
-        watchPath(obj, keyPath);
-      }
-    });
+  if (isKeyName(_keyPath)) {
+    watchKey(obj, _keyPath);
   } else {
-    if (isKeyName(_keyPath)) {
-      watchKey(obj, _keyPath);
-    } else {
-      watchPath(obj, _keyPath);
-    }
+    watchPath(obj, _keyPath);
   }
 };
 
@@ -4135,20 +4130,10 @@ Ember.unwatch = function(obj, _keyPath) {
   // can't watch length on Array - it is special...
   if (_keyPath === 'length' && typeOf(obj) === 'array') { return; }
 
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_keyPath, function (keyPath) {
-      if (isKeyName(keyPath)) {
-        unwatchKey(obj, keyPath);
-      } else {
-        unwatchPath(obj, keyPath);
-      }
-    });
+  if (isKeyName(_keyPath)) {
+    unwatchKey(obj, _keyPath);
   } else {
-    if (isKeyName(_keyPath)) {
-      unwatchKey(obj, _keyPath);
-    } else {
-      unwatchPath(obj, _keyPath);
-    }
+    unwatchPath(obj, _keyPath);
   }
 };
 
@@ -4498,21 +4483,21 @@ ComputedPropertyPrototype.readOnly = function(readOnly) {
   @chainable
 */
 ComputedPropertyPrototype.property = function() {
-  var addArg;
+  var args;
 
   if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    // Slightly odd setup to keep JSHint happy
-    addArg = function(arg) { args.push(arg); };
+    var addArg = function (property) {
+      args.push(property); 
+    };
+
+    args = [];
+    for (var i = 0, l = arguments.length; i < l; i++) {
+      expandProperties(arguments[i], addArg);
+    }
+  } else {
+    args = a_slice.call(arguments);
   }
 
-  var args = [];
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-      expandProperties(arguments[i], addArg);
-    } else {
-      args.push(arguments[i]);
-    }
-  }
   this._dependentKeys = args;
   return this;
 };
@@ -5365,10 +5350,6 @@ Ember.computed.defaultTo = function(defaultPath) {
 var AFTER_OBSERVERS = ':change',
     BEFORE_OBSERVERS = ':before';
 
-if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-  var expandProperties = Ember.expandProperties;
-}
-
 function changeEvent(keyName) {
   return keyName+AFTER_OBSERVERS;
 }
@@ -5385,15 +5366,8 @@ function beforeEvent(keyName) {
   @param {Function|String} [method]
 */
 Ember.addObserver = function(obj, _path, target, method) {
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_path, function (path) {
-      Ember.addListener(obj, changeEvent(path), target, method);
-      Ember.watch(obj, path);
-    });
-  } else {
-    Ember.addListener(obj, changeEvent(_path), target, method);
-    Ember.watch(obj, _path);
-  }
+  Ember.addListener(obj, changeEvent(_path), target, method);
+  Ember.watch(obj, _path);
 
   return this;
 };
@@ -5410,15 +5384,9 @@ Ember.observersFor = function(obj, path) {
   @param {Function|String} [method]
 */
 Ember.removeObserver = function(obj, _path, target, method) {
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_path, function (path) {
-      Ember.unwatch(obj, path);
-      Ember.removeListener(obj, changeEvent(path), target, method);
-    });
-  } else {
-    Ember.unwatch(obj, _path);
-    Ember.removeListener(obj, changeEvent(_path), target, method);
-  }
+  Ember.unwatch(obj, _path);
+  Ember.removeListener(obj, changeEvent(_path), target, method);
+
   return this;
 };
 
@@ -5430,15 +5398,9 @@ Ember.removeObserver = function(obj, _path, target, method) {
   @param {Function|String} [method]
 */
 Ember.addBeforeObserver = function(obj, _path, target, method) {
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_path, function (path) {
-      Ember.addListener(obj, beforeEvent(path), target, method);
-      Ember.watch(obj, path);
-    });
-  } else {
-    Ember.addListener(obj, beforeEvent(_path), target, method);
-    Ember.watch(obj, _path);
-  }
+  Ember.addListener(obj, beforeEvent(_path), target, method);
+  Ember.watch(obj, _path);
+
   return this;
 };
 
@@ -5478,15 +5440,9 @@ Ember.beforeObserversFor = function(obj, path) {
   @param {Function|String} [method]
 */
 Ember.removeBeforeObserver = function(obj, _path, target, method) {
-  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
-    expandProperties(_path, function (path) {
-      Ember.unwatch(obj, path);
-      Ember.removeListener(obj, beforeEvent(path), target, method);
-    });
-  } else {
-    Ember.unwatch(obj, _path);
-    Ember.removeListener(obj, beforeEvent(_path), target, method);
-  }
+  Ember.unwatch(obj, _path);
+  Ember.removeListener(obj, beforeEvent(_path), target, method);
+
   return this;
 };
 
@@ -5905,18 +5861,7 @@ define("backburner",
 
         timers.splice(i, 0, executeAt, fn);
 
-        if (laterTimer && laterTimerExpiresAt < executeAt) { return fn; }
-
-        if (laterTimer) {
-          clearTimeout(laterTimer);
-          laterTimer = null;
-        }
-        laterTimer = global.setTimeout(function() {
-          executeTimers(self);
-          laterTimer = null;
-          laterTimerExpiresAt = null;
-        }, wait);
-        laterTimerExpiresAt = executeAt;
+        updateLaterTimer(self, executeAt, wait);
 
         return fn;
       },
@@ -6050,6 +5995,20 @@ define("backburner",
       });
     }
 
+    function updateLaterTimer(self, executeAt, wait) {
+      if (!laterTimer || executeAt < laterTimerExpiresAt) {
+        if (laterTimer) {
+          clearTimeout(laterTimer);
+        }
+        laterTimer = global.setTimeout(function() {
+          laterTimer = null;
+          laterTimerExpiresAt = null;
+          executeTimers(self);
+        }, wait);
+        laterTimerExpiresAt = executeAt;
+      }
+    }
+
     function executeTimers(self) {
       var now = +new Date(),
           time, fns, i, l;
@@ -6069,12 +6028,7 @@ define("backburner",
       });
 
       if (timers.length) {
-        laterTimer = global.setTimeout(function() {
-          executeTimers(self);
-          laterTimer = null;
-          laterTimerExpiresAt = null;
-        }, timers[0] - now);
-        laterTimerExpiresAt = timers[0];
+        updateLaterTimer(self, timers[0], timers[0] - now);
       }
     }
 
@@ -7114,6 +7068,10 @@ var Mixin, REQUIRED, Alias,
     defineProperty = Ember.defineProperty,
     guidFor = Ember.guidFor;
 
+if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+  var expandProperties = Ember.expandProperties;
+}
+
 function mixinsMeta(obj) {
   var m = Ember.meta(obj, true), ret = m.mixins;
   if (!ret) {
@@ -7767,13 +7725,33 @@ Ember.aliasMethod = function(methodName) {
 */
 Ember.observer = function() {
   var func  = a_slice.call(arguments, -1)[0];
-  var paths = a_slice.call(arguments, 0, -1);
+  var paths;
 
-  if (typeof func !== "function") {
-    // revert to old, soft-deprecated argument ordering
+  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+    var addWatchedProperty = function (path) { paths.push(path); };
+    var _paths = a_slice.call(arguments, 0, -1);
 
-    func  = arguments[0];
-    paths = a_slice.call(arguments, 1);
+    if (typeof func !== "function") {
+      // revert to old, soft-deprecated argument ordering
+
+      func  = arguments[0];
+      _paths = a_slice.call(arguments, 1);
+    }
+
+    paths = [];
+
+    for (var i=0; i<_paths.length; ++i) {
+      expandProperties(_paths[i], addWatchedProperty);
+    }
+  } else {
+    paths = a_slice.call(arguments, 0, -1);
+
+    if (typeof func !== "function") {
+      // revert to old, soft-deprecated argument ordering
+
+      func  = arguments[0];
+      paths = a_slice.call(arguments, 1);
+    }
   }
 
   if (typeof func !== "function") {
@@ -7861,13 +7839,34 @@ Ember.immediateObserver = function() {
 */
 Ember.beforeObserver = function() {
   var func  = a_slice.call(arguments, -1)[0];
-  var paths = a_slice.call(arguments, 0, -1);
+  var paths;
 
-  if (typeof func !== "function") {
-    // revert to old, soft-deprecated argument ordering
+  if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+    var addWatchedProperty = function(path) { paths.push(path); };
 
-    func  = arguments[0];
-    paths = a_slice.call(arguments, 1);
+    var _paths = a_slice.call(arguments, 0, -1);
+
+    if (typeof func !== "function") {
+      // revert to old, soft-deprecated argument ordering
+
+      func  = arguments[0];
+      _paths = a_slice.call(arguments, 1);
+    }
+
+    paths = [];
+
+    for (var i=0; i<_paths.length; ++i) {
+      expandProperties(_paths[i], addWatchedProperty);
+    }
+  } else {
+    paths = a_slice.call(arguments, 0, -1);
+
+    if (typeof func !== "function") {
+      // revert to old, soft-deprecated argument ordering
+
+      func  = arguments[0];
+      paths = a_slice.call(arguments, 1);
+    }
   }
 
   if (typeof func !== "function") {
@@ -7992,46 +7991,24 @@ define("rsvp/all",
     __exports__.all = all;
   });
 define("rsvp/async",
-  ["exports"],
-  function(__exports__) {
+  ["rsvp/config","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var config = __dependency1__.config;
+
     var browserGlobal = (typeof window !== 'undefined') ? window : {};
     var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-    var async;
     var local = (typeof global !== 'undefined') ? global : this;
 
-    // old node
+    // node
     function useNextTick() {
-      return function(callback, arg) {
-        process.nextTick(function() {
-          callback(arg);
-        });
-      };
-    }
-
-    // node >= 0.10.x
-    function useSetImmediate() {
-      return function(callback, arg) {
-        /* global  setImmediate */
-        setImmediate(function(){
-          callback(arg);
-        });
+      return function() {
+        process.nextTick(flush);
       };
     }
 
     function useMutationObserver() {
-      var queue = [];
-
-      var observer = new BrowserMutationObserver(function() {
-        var toProcess = queue.slice();
-        queue = [];
-
-        toProcess.forEach(function(tuple) {
-          var callback = tuple[0], arg= tuple[1];
-          callback(arg);
-        });
-      });
-
+      var observer = new BrowserMutationObserver(flush);
       var element = document.createElement('div');
       observer.observe(element, { attributes: true });
 
@@ -8041,44 +8018,118 @@ define("rsvp/async",
         observer = null;
       }, false);
 
-      return function(callback, arg) {
-        queue.push([callback, arg]);
+      return function() {
         element.setAttribute('drainQueue', 'drainQueue');
       };
     }
 
     function useSetTimeout() {
-      return function(callback, arg) {
-        local.setTimeout(function() {
-          callback(arg);
-        }, 1);
+      return function() {
+        local.setTimeout(flush, 1);
       };
     }
 
-    if (typeof setImmediate === 'function') {
-      async = useSetImmediate();
-    } else if (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]') {
-      async = useNextTick();
+    var queue = [];
+    function flush() {
+      for (var i = 0; i < queue.length; i++) {
+        var tuple = queue[i];
+        var callback = tuple[0], arg = tuple[1];
+        callback(arg);
+      }
+      queue = [];
+    }
+
+    var scheduleFlush;
+
+    // Decide what async method to use to triggering processing of queued callbacks:
+    if (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]') {
+      scheduleFlush = useNextTick();
     } else if (BrowserMutationObserver) {
-      async = useMutationObserver();
+      scheduleFlush = useMutationObserver();
     } else {
-      async = useSetTimeout();
+      scheduleFlush = useSetTimeout();
+    }
+
+    function asyncDefault(callback, arg) {
+      var length = queue.push([callback, arg]);
+      if (length === 1) {
+        // If length is 1, that means that we need to schedule an async flush.
+        // If additional callbacks are queued before the queue is flushed, they
+        // will be processed by this flush that we are scheduling.
+        scheduleFlush();
+      }
+    }
+
+    config.async = asyncDefault;
+
+    function async(callback, arg) {
+      config.async(callback, arg);
     }
 
 
     __exports__.async = async;
+    __exports__.asyncDefault = asyncDefault;
+  });
+define("rsvp/cast",
+  ["exports"],
+  function(__exports__) {
+    "use strict";
+    function cast(object) {
+      /*jshint validthis:true */
+      if (object && typeof object === 'object' && object.constructor === this) {
+        return object;
+      }
+
+      var Promise = this;
+
+      return new Promise(function(resolve) {
+        resolve(object);
+      });
+    }
+
+
+    __exports__.cast = cast;
   });
 define("rsvp/config",
-  ["rsvp/async","exports"],
+  ["rsvp/events","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
-    var async = __dependency1__.async;
+    var EventTarget = __dependency1__.EventTarget;
 
     var config = {};
-    config.async = async;
+    EventTarget.mixin(config);
+
+    function configure(name, value) {
+      if (name === 'onerror') {
+        // handle for legacy users that expect the actual
+        // error to be passed to their function added via
+        // `RSVP.configure('onerror', someFunctionHere);`
+        config.on('error', function(event){
+          value(event.detail);
+        });
+      } else {
+        config[name] = value;
+      }
+    }
+
+    function on(){
+      return config.on.apply(config, arguments);
+    }
+
+    function off(){
+      return config.off.apply(config, arguments);
+    }
+
+    function trigger(){
+      return config.trigger.apply(config, arguments);
+    }
 
 
     __exports__.config = config;
+    __exports__.configure = configure;
+    __exports__.on = on;
+    __exports__.off = off;
+    __exports__.trigger = trigger;
   });
 define("rsvp/defer",
   ["rsvp/promise","exports"],
@@ -8307,11 +8358,12 @@ define("rsvp/node",
     __exports__.denodeify = denodeify;
   });
 define("rsvp/promise",
-  ["rsvp/config","rsvp/events","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
+  ["rsvp/config","rsvp/events","rsvp/cast","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
     "use strict";
     var config = __dependency1__.config;
     var EventTarget = __dependency2__.EventTarget;
+    var cast = __dependency3__.cast;
 
     function objectOrFunction(x) {
       return isFunction(x) || (typeof x === "object" && x !== null);
@@ -8321,7 +8373,7 @@ define("rsvp/promise",
       return typeof x === "function";
     }
 
-    var Promise = function(resolver) {
+    function Promise(resolver) {
       var promise = this,
       resolved = false;
 
@@ -8345,26 +8397,10 @@ define("rsvp/promise",
         reject(promise, value);
       };
 
-      this.on('promise:resolved', function(event) {
-        this.trigger('success', { detail: event.detail });
-      }, this);
-
-      this.on('promise:failed', function(event) {
-        this.trigger('error', { detail: event.detail });
-      }, this);
-
-      this.on('error', onerror);
-
       try {
         resolver(resolvePromise, rejectPromise);
       } catch(e) {
         rejectPromise(e);
-      }
-    };
-
-    function onerror(event) {
-      if (config.onerror) {
-        config.onerror(event.detail);
       }
     }
 
@@ -8400,14 +8436,19 @@ define("rsvp/promise",
 
     Promise.prototype = {
       constructor: Promise,
-
       isRejected: undefined,
       isFulfilled: undefined,
       rejectedReason: undefined,
       fulfillmentValue: undefined,
 
+      _onerror: function (reason) {
+        config.trigger('error', {
+          detail: reason
+        });
+      },
+
       then: function(done, fail) {
-        this.off('error', onerror);
+        this._onerror = null;
 
         var thenPromise = new this.constructor(function() {});
 
@@ -8434,10 +8475,26 @@ define("rsvp/promise",
         return thenPromise;
       },
 
-      fail: function(fail) {
-        return this.then(null, fail);
+      fail: function(onRejection) {
+        return this.then(null, onRejection);
+      },
+      'finally': function(callback) {
+        var constructor = this.constructor;
+
+        return this.then(function(value) {
+          return constructor.cast(callback()).then(function(){
+            return value;
+          });
+        }, function(reason) {
+          return constructor.cast(callback()).then(function(){
+            throw reason;
+          });
+        });
       }
     };
+
+    Promise.prototype['catch'] = Promise.prototype.fail;
+    Promise.cast = cast;
 
     EventTarget.mixin(Promise.prototype);
 
@@ -8499,6 +8556,7 @@ define("rsvp/promise",
 
     function reject(promise, value) {
       config.async(function() {
+        if (promise._onerror) { promise._onerror(value); }
         promise.trigger('promise:failed', { detail: value });
         promise.isRejected = true;
         promise.rejectedReason = value;
@@ -8555,8 +8613,8 @@ define("rsvp/rethrow",
     __exports__.rethrow = rethrow;
   });
 define("rsvp",
-  ["rsvp/events","rsvp/promise","rsvp/node","rsvp/all","rsvp/hash","rsvp/rethrow","rsvp/defer","rsvp/config","rsvp/resolve","rsvp/reject","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __dependency9__, __dependency10__, __exports__) {
+  ["rsvp/events","rsvp/promise","rsvp/node","rsvp/all","rsvp/hash","rsvp/rethrow","rsvp/defer","rsvp/config","rsvp/resolve","rsvp/reject","rsvp/async","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __dependency9__, __dependency10__, __dependency11__, __exports__) {
     "use strict";
     var EventTarget = __dependency1__.EventTarget;
     var Promise = __dependency2__.Promise;
@@ -8566,12 +8624,14 @@ define("rsvp",
     var rethrow = __dependency6__.rethrow;
     var defer = __dependency7__.defer;
     var config = __dependency8__.config;
+    var configure = __dependency8__.configure;
+    var on = __dependency8__.on;
+    var off = __dependency8__.off;
+    var trigger = __dependency8__.trigger;
     var resolve = __dependency9__.resolve;
     var reject = __dependency10__.reject;
-
-    function configure(name, value) {
-      config[name] = value;
-    }
+    var async = __dependency11__.async;
+    var asyncDefault = __dependency11__.asyncDefault;
 
 
     __exports__.Promise = Promise;
@@ -8582,9 +8642,15 @@ define("rsvp",
     __exports__.defer = defer;
     __exports__.denodeify = denodeify;
     __exports__.configure = configure;
+    __exports__.trigger = trigger;
+    __exports__.on = on;
+    __exports__.off = off;
     __exports__.resolve = resolve;
     __exports__.reject = reject;
+    __exports__.async = async;
+    __exports__.asyncDefault = asyncDefault;
   });
+
 })();
 
 (function() {
@@ -9288,7 +9354,6 @@ define("container",
         @method destroy
       */
       destroy: function() {
-        this.isDestroyed = true;
 
         for (var i=0, l=this.children.length; i<l; i++) {
           this.children[i].destroy();
@@ -10767,12 +10832,14 @@ function makeCtor() {
 
         Ember.assert("Ember.Object.create no longer supports mixing in other definitions, use createWithMixins instead.", !(properties instanceof Ember.Mixin));
 
-        if (properties === null || typeof properties !== 'object') {
-          Ember.assert("Ember.Object.create only accepts objects.");
-          continue;
+        if (typeof properties !== 'object' && properties !== undefined) {
+          throw new Ember.Error("Ember.Object.create only accepts objects.");
         }
 
+        if (!properties) { continue; }
+
         var keyNames = Ember.keys(properties);
+
         for (var j = 0, ll = keyNames.length; j < ll; j++) {
           var keyName = keyNames[j];
           if (!properties.hasOwnProperty(keyName)) { continue; }
@@ -11883,7 +11950,7 @@ function iter(key, value) {
      with an `Ember.Object` subclass, you should be sure to change the length
      property using `set().`
 
-  2. If you must implement `nextObject().` See documentation.
+  2. You must implement `nextObject().` See documentation.
 
   Once you have these two methods implement, apply the `Ember.Enumerable` mixin
   to your class and you will be able to enumerate the contents of your object
@@ -12807,38 +12874,33 @@ Ember.Enumerable = Ember.Mixin.create({
     Ember.propertyDidChange(this, '[]');
 
     return this ;
-  }
+  },
 
-});
+  /**
+    Converts the enumerable into an array and sorts by the keys
+    specified in the argument.
 
+    You may provide multiple arguments to sort by multiple properties.
 
-  Ember.Enumerable.reopen({
-    /**
-      Converts the enumerable into an array and sorts by the keys
-      specified in the argument.
-
-      You may provide multiple arguments to sort by multiple properties.
-
-      @method sortBy
-      @param {String} property name(s) to sort on
-      @return {Array} The sorted array.
+    @method sortBy
+    @param {String} property name(s) to sort on
+    @return {Array} The sorted array.
     */
-    sortBy: function() {
-      var sortKeys = arguments;
-      return this.toArray().sort(function(a, b){
-        for(var i = 0; i < sortKeys.length; i++) {
-          var key = sortKeys[i],
-              propA = get(a, key),
-              propB = get(b, key);
-          // return 1 or -1 else continue to the next sortKey
-          var compareValue = Ember.compare(propA, propB);
-          if (compareValue) { return compareValue; }
-        }
-        return 0;
-      });
-    }
-  });
-
+  sortBy: function() {
+    var sortKeys = arguments;
+    return this.toArray().sort(function(a, b){
+      for(var i = 0; i < sortKeys.length; i++) {
+        var key = sortKeys[i],
+        propA = get(a, key),
+        propB = get(b, key);
+        // return 1 or -1 else continue to the next sortKey
+        var compareValue = Ember.compare(propA, propB);
+        if (compareValue) { return compareValue; }
+      }
+      return 0;
+    });
+  }
+});
 
 })();
 
@@ -12932,7 +12994,7 @@ Ember.Array = Ember.Mixin.create(Ember.Enumerable, /** @scope Ember.Array.protot
     This returns the objects at the specified indexes, using `objectAt`.
 
     ```javascript
-    var arr = ['a', 'b', 'c', 'd'];
+    var arr =Â ['a', 'b', 'c', 'd'];
     arr.objectsAt([0, 1, 2]);  // ["a", "b", "c"]
     arr.objectsAt([2, 3, 4]);  // ["c", "d", undefined]
     ```
@@ -13294,12 +13356,14 @@ var e_get = Ember.get,
     doubleEachPropertyPattern = /(.*\.@each){2,}/,
     arrayBracketPattern = /\.\[\]$/;
 
+if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+  var expandProperties = Ember.expandProperties;
+}
+
 function get(obj, key) {
-  
-    if (key === '@this') {
-      return obj;
-    }
-  
+  if (key === '@this') {
+    return obj;
+  }
 
   return e_get(obj, key);
 }
@@ -13879,8 +13943,18 @@ ReduceComputedProperty.prototype.property = function () {
       throw new Ember.Error("Nested @each properties not supported: " + dependentKey);
     } else if (match = eachPropertyPattern.exec(dependentKey)) {
       dependentArrayKey = match[1];
-      itemPropertyKey = match[2];
-      cp.itemPropertyKey(dependentArrayKey, itemPropertyKey);
+
+      if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+        var itemPropertyKeyPattern = match[2],
+            addItemPropertyKey = function (itemPropertyKey) {
+              cp.itemPropertyKey(dependentArrayKey, itemPropertyKey);
+            };
+
+        expandProperties(itemPropertyKeyPattern, addItemPropertyKey);
+      } else {
+        itemPropertyKey = match[2];
+        cp.itemPropertyKey(dependentArrayKey, itemPropertyKey);
+      }
       propertyArgs.add(dependentArrayKey);
     } else {
       propertyArgs.add(dependentKey);
@@ -13888,6 +13962,7 @@ ReduceComputedProperty.prototype.property = function () {
   });
 
   return ComputedProperty.prototype.property.apply(this, propertyArgs.toArray());
+
 };
 
 /**
@@ -14999,6 +15074,22 @@ Ember.computed.sort = function (itemsKey, sortDefinition) {
 */
 Ember.RSVP = requireModule('rsvp');
 
+Ember.RSVP.onerrorDefault = function(event) {
+  var error = event.detail;
+
+  if (error instanceof Error) {
+    Ember.Logger.error(error.stack);
+
+    if (Ember.testing) {
+      throw error;
+    } else {
+      Ember.assert(error, false);
+    }
+  }
+};
+
+Ember.RSVP.on('error', Ember.RSVP.onerrorDefault);
+
 })();
 
 
@@ -15010,6 +15101,10 @@ Ember.RSVP = requireModule('rsvp');
 */
 
 var a_slice = Array.prototype.slice;
+
+if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+  var expandProperties = Ember.expandProperties;
+}
 
 if (Ember.EXTEND_PROTOTYPES === true || Ember.EXTEND_PROTOTYPES.Function) {
 
@@ -15075,6 +15170,8 @@ if (Ember.EXTEND_PROTOTYPES === true || Ember.EXTEND_PROTOTYPES.Function) {
   */
   Function.prototype.property = function() {
     var ret = Ember.computed(this);
+    // ComputedProperty.prototype.property expands properties; no need for us to
+    // do so here.
     return ret.property.apply(ret, arguments);
   };
 
@@ -15104,7 +15201,17 @@ if (Ember.EXTEND_PROTOTYPES === true || Ember.EXTEND_PROTOTYPES.Function) {
     @for Function
   */
   Function.prototype.observes = function() {
-    this.__ember_observes__ = a_slice.call(arguments);
+    if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+      var addWatchedProperty = function (obs) { watched.push(obs); };
+      var watched = [];
+
+      for (var i=0; i<arguments.length; ++i) {
+        expandProperties(arguments[i], addWatchedProperty);
+      }
+    } else {
+      this.__ember_observes__ = a_slice.call(arguments);
+    }
+
     return this;
   };
 
@@ -15139,6 +15246,7 @@ if (Ember.EXTEND_PROTOTYPES === true || Ember.EXTEND_PROTOTYPES.Function) {
       Ember.assert("Immediate observers must observe internal properties only, not properties on other objects.", arg.indexOf('.') === -1);
     }
 
+    // observes handles property expansion
     return this.observes.apply(this, arguments);
   };
 
@@ -15165,7 +15273,19 @@ if (Ember.EXTEND_PROTOTYPES === true || Ember.EXTEND_PROTOTYPES.Function) {
     @for Function
   */
   Function.prototype.observesBefore = function() {
-    this.__ember_observesBefore__ = a_slice.call(arguments);
+    if (Ember.FEATURES.isEnabled('propertyBraceExpansion')) {
+      var addWatchedProperty = function (obs) { watched.push(obs); };
+      var watched = [];
+
+      for (var i=0; i<arguments.length; ++i) {
+        expandProperties(arguments[i], addWatchedProperty);
+      }
+
+      this.__ember_observesBefore__ = watched;
+    } else {
+      this.__ember_observesBefore__ = a_slice.call(arguments);
+    }
+
     return this;
   };
 
@@ -15364,7 +15484,7 @@ var get = Ember.get, set = Ember.set;
 
   });
 
-  c = Context.create({ firstName: "John", lastName: "Doe" });
+  c = Contact.create({ firstName: "John", lastName: "Doe" });
   c.swapNames();  // returns c
   c.freeze();
   c.swapNames();  // EXCEPTION
@@ -16245,6 +16365,8 @@ Ember.ActionHandler = Ember.Mixin.create({
     var hashName;
 
     if (!props._actions) {
+      Ember.assert(this + " 'actions' should not be a function", typeof(props.actions) !== 'function');
+
       if (typeOf(props.actions) === 'object') {
         hashName = 'actions';
       } else if (typeOf(props.events) === 'object') {
@@ -22741,7 +22863,7 @@ var ViewCollection = Ember._ViewCollection;
 
 /**
   A `ContainerView` is an `Ember.View` subclass that implements `Ember.MutableArray`
-  allowing programatic management of its child views.
+  allowing programmatic management of its child views.
 
   ## Setting Initial Child Views
 
@@ -22781,7 +22903,7 @@ var ViewCollection = Ember._ViewCollection;
 
   ## Adding and Removing Child Views
 
-  The container view implements `Ember.MutableArray` allowing programatic management of its child views.
+  The container view implements `Ember.MutableArray` allowing programmatic management of its child views.
 
   To remove a view, pass that view into a `removeObject` call on the container view.
 
@@ -23227,7 +23349,7 @@ var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt;
   Ember.CollectionView.CONTAINER_MAP['article'] = 'section'
   ```
 
-  ## Programatic creation of child views
+  ## Programmatic creation of child views
 
   For cases where additional customization beyond the use of a single
   `itemViewClass` or `tagName` matching is required CollectionView's
@@ -23658,6 +23780,11 @@ Ember.Component = Ember.View.extend(Ember.TargetActionSupport, {
     set(this, 'controller', this);
   },
 
+  defaultLayout: function(options){
+    options.data = {view: options._context};
+    Ember.Handlebars.helpers['yield'].apply(this, [options]);
+  },
+
   // during render, isolate keywords
   cloneKeywords: function() {
     return {
@@ -23700,54 +23827,79 @@ Ember.Component = Ember.View.extend(Ember.TargetActionSupport, {
   }).property('_parentView'),
 
   /**
-    Sends an action to component's controller. A component inherits its
-    controller from the context in which it is used.
+    Triggers a named action on the controller context where the component is used if
+    this controller has registered for notifications of the action.
 
-    By default, calling `sendAction()` will send an action with the name
-    of the component's `action` property.
+    For example a component for playing or pausing music may translate click events
+    into action notifications of "play" or "stop" depending on some internal state
+    of the component:
 
-    For example, if the component had a property `action` with the value
-    `"addItem"`, calling `sendAction()` would send the `addItem` action
-    to the component's controller.
-
-    If you provide the `action` argument to `sendAction()`, that key will
-    be used to look up the action name.
-
-    For example, if the component had a property `playing` with the value
-    `didStartPlaying`, calling `sendAction('playing')` would send the
-    `didStartPlaying` action to the component's controller.
-
-    Whether or not you are using the default action or a named action, if
-    the action name is not defined on the component, calling `sendAction()`
-    does not have any effect.
-
-    For example, if you call `sendAction()` on a component that does not have
-    an `action` property defined, no action will be sent to the controller,
-    nor will an exception be raised.
-
-    You can send a context object with the action by supplying the `context`
-    argument. The context will be supplied as the first argument in the
-    target's action method. Example:
 
     ```javascript
-    App.MyTreeComponent = Ember.Component.extend({
-      click: function() {
-        this.sendAction('didClickTreeNode', this.get('node'));
-      }
-    });
-
-    App.CategoriesController = Ember.Controller.extend({
-      actions: {
-        didClickCategory: function(category) {
-          //Do something with the node/category that was clicked
+    App.PlayButtonComponent = Ember.Component.extend({
+      click: function(){
+        if (this.get('isPlaying')) {
+          this.triggerAction('play');
+        } else {
+          this.triggerAction('stop');
         }
       }
     });
     ```
 
+    When used inside a template these component actions are configured to
+    trigger actions in the outer application context:
+
     ```handlebars
-    {{! categories.hbs}}
-    {{my-tree didClickTreeNode='didClickCategory'}}
+    {{! application.hbs }}
+    {{play-button play="musicStarted" stop="musicStopped"}}
+    ```
+
+    When the component receives a browser `click` event it translate this
+    interaction into application-specific semantics ("play" or "stop") and
+    triggers the specified action name on the controller for the template
+    where the component is used: 
+
+
+    ```javascript
+    App.ApplicationController = Ember.Controller.extend({
+      actions: {
+        musicStarted: function(){
+          // called when the play button is clicked
+          // and the music started playing
+        },
+        musicStopped: function(){
+          // called when the play button is clicked
+          // and the music stopped playing
+        }
+      }
+    });
+    ```
+
+    If no action name is passed to `sendAction` a default name of "action"
+    is assumed.
+
+    ```javascript
+    App.NextButtonComponent = Ember.Component.extend({
+      click: function(){
+        this.sendAction();
+      }
+    });
+    ```
+
+    ```handlebars
+    {{! application.hbs }}
+    {{next-button action="playNextSongInAlbum"}}
+    ```
+
+    ```javascript
+    App.ApplicationController = Ember.Controller.extend({
+      actions: {
+        playNextSongInAlbum: function(){
+          ...
+        }
+      }
+    });
     ```
 
     @method sendAction
@@ -23869,7 +24021,7 @@ define("metamorph",
     "use strict";
     // ==========================================================================
     // Project:   metamorph
-    // Copyright: ©2011 My Company Inc. All rights reserved.
+    // Copyright: Â©2011 My Company Inc. All rights reserved.
     // ==========================================================================
 
     var K = function() {},
@@ -24448,7 +24600,7 @@ Ember.Handlebars.helper = function(name, value) {
 */
 Ember.Handlebars.makeViewHelper = function(ViewClass) {
   return function(options) {
-    Ember.assert("You can only pass attributes (such as name=value) not bare values to a helper for a View", arguments.length < 2);
+    Ember.assert("You can only pass attributes (such as name=value) not bare values to a helper for a View found in '" + ViewClass.toString() + "'", arguments.length < 2);
     return Ember.Handlebars.helpers.view.call(this, ViewClass, options);
   };
 };
@@ -24787,14 +24939,11 @@ Ember.Handlebars.registerHelper('helperMissing', function(path) {
 
   var options = arguments[arguments.length - 1];
 
-  
+  var helper = Ember.Handlebars.resolveHelper(options.data.view.container, path);
 
-    var helper = Ember.Handlebars.resolveHelper(options.data.view.container, path);
-
-    if (helper) {
-      return helper.apply(this, slice.call(arguments, 1));
-    }
-  
+  if (helper) {
+    return helper.apply(this, slice.call(arguments, 1));
+  }
 
   error = "%@ Handlebars error: Could not find property '%@' on object %@.";
   if (options.data) {
@@ -24822,14 +24971,13 @@ Ember.Handlebars.registerHelper('blockHelperMissing', function(path) {
 
   var options = arguments[arguments.length - 1];
 
-  
+  Ember.assert("`blockHelperMissing` was invoked without a helper name, which is most likely due to a mismatch between the version of Ember.js you're running now and the one used to precompile your templates. Please make sure the version of `ember-handlebars-compiler` you're using is up to date.", path);
 
-    var helper = Ember.Handlebars.resolveHelper(options.data.view.container, path);
+  var helper = Ember.Handlebars.resolveHelper(options.data.view.container, path);
 
-    if (helper) {
-      return helper.apply(this, slice.call(arguments, 1));
-    }
-  
+  if (helper) {
+    return helper.apply(this, slice.call(arguments, 1));
+  }
 
   return Handlebars.helpers.blockHelperMissing.apply(this, arguments);
 });
@@ -25676,6 +25824,7 @@ Ember._HandlebarsBoundView = Ember._MetamorphView.extend({
 var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt;
 var handlebarsGet = Ember.Handlebars.get, normalizePath = Ember.Handlebars.normalizePath;
 var forEach = Ember.ArrayPolyfills.forEach;
+var o_create = Ember.create;
 
 var EmberHandlebars = Ember.Handlebars, helpers = EmberHandlebars.helpers;
 
@@ -25757,6 +25906,8 @@ function bind(property, options, preserveContext, shouldDisplay, valueNormalizer
   }
 }
 
+EmberHandlebars.bind = bind;
+
 function simpleBind(currentContext, property, options) {
   var data = options.data,
       view = data.view,
@@ -25826,13 +25977,10 @@ EmberHandlebars.registerHelper('_triageMustache', function(property, options) {
     return helpers[property].call(this, options);
   }
 
-  
-
-    var helper = Ember.Handlebars.resolveHelper(options.data.view.container, property);
-    if (helper) {
-      return helper.call(this, options);
-    }
-  
+  var helper = Ember.Handlebars.resolveHelper(options.data.view.container, property);
+  if (helper) {
+    return helper.call(this, options);
+  }
 
   return helpers.bind.call(this, property, options);
 });
@@ -25936,7 +26084,7 @@ EmberHandlebars.registerHelper('boundIf', function(property, fn) {
 */
 EmberHandlebars.registerHelper('with', function(context, options) {
   if (arguments.length === 4) {
-    var keywordName, path, rootPath, normalized;
+    var keywordName, path, rootPath, normalized, contextPath;
 
     Ember.assert("If you pass more than one argument to the with helper, it must be in the form #with foo as bar", arguments[1] === "as");
     options = arguments[3];
@@ -25945,8 +26093,12 @@ EmberHandlebars.registerHelper('with', function(context, options) {
 
     Ember.assert("You must pass a block to the with helper", options.fn && options.fn !== Handlebars.VM.noop);
 
+    var localizedOptions = o_create(options);
+    localizedOptions.data = o_create(options.data);
+    localizedOptions.data.keywords = o_create(options.data.keywords || {});
+
     if (Ember.isGlobalPath(path)) {
-      Ember.bind(options.data.keywords, keywordName, path);
+      contextPath = path;
     } else {
       normalized = normalizePath(this, path, options.data);
       path = normalized.path;
@@ -25955,14 +26107,14 @@ EmberHandlebars.registerHelper('with', function(context, options) {
       // This is a workaround for the fact that you cannot bind separate objects
       // together. When we implement that functionality, we should use it here.
       var contextKey = Ember.$.expando + Ember.guidFor(rootPath);
-      options.data.keywords[contextKey] = rootPath;
-
+      localizedOptions.data.keywords[contextKey] = rootPath;
       // if the path is '' ("this"), just bind directly to the current context
-      var contextPath = path ? contextKey + '.' + path : contextKey;
-      Ember.bind(options.data.keywords, keywordName, contextPath);
+      contextPath = path ? contextKey + '.' + path : contextKey;
     }
 
-    return bind.call(this, path, options, true, exists);
+    Ember.bind(localizedOptions.data.keywords, keywordName, contextPath);
+
+    return bind.call(this, path, localizedOptions, true, exists);
   } else {
     Ember.assert("You must pass exactly one argument to the with helper", arguments.length === 2);
     Ember.assert("You must pass a block to the with helper", options.fn && options.fn !== Handlebars.VM.noop);
@@ -26118,7 +26270,7 @@ EmberHandlebars.registerHelper('unless', function(context, options) {
   ```
 
   All three strategies - string return value, boolean return value, and
-  hard-coded value – can be combined in a single declaration:
+  hard-coded value â€“ can be combined in a single declaration:
 
   ```handlebars
   <img {{bind-attr class=":class-name-to-always-apply view.someBool:class-name-if-true view.someProperty"}}>
@@ -27520,24 +27672,48 @@ Ember.Handlebars.registerHelper('template', function(name, options) {
 */
 
 /**
-  `partial` renders a template directly using the current context.
-  If needed the context can be set using the `{{#with foo}}` helper.
+  The `partial` helper renders another template without
+  changing the template context:
 
-  ```html
-  <script type="text/x-handlebars" data-template-name="header_bar">
-    {{#with currentUser}}
-      {{partial user_info}}
-    {{/with}}
-  </script>
+  ```handlebars
+  {{foo}}
+  {{partial "nav"}}
   ```
 
-  The `data-template-name` attribute of a partial template
-  is prefixed with an underscore.
+  The above example template will render a template named
+  "_nav", which has the same context as the parent template
+  it's rendered into, so if the "_nav" template also referenced
+  `{{foo}}`, it would print the same thing as the `{{foo}}`
+  in the above example.
 
-  ```html
-  <script type="text/x-handlebars" data-template-name="_user_info">
-    <span>Hello {{username}}!</span>
-  </script>
+  If a "_nav" template isn't found, the `partial` helper will
+  fall back to a template named "nav".
+
+  ## Bound template names
+
+  The parameter supplied to `partial` can also be a path
+  to a property containing a template name, e.g.:
+
+  ```handlebars
+  {{partial someTemplateName}}
+  ```
+
+  The above example will look up the value of `someTemplateName`
+  on the template context (e.g. a controller) and use that
+  value as the name of the template to render. If the resolved
+  value is falsy, nothing will be rendered. If `someTemplateName`
+  changes, the partial will be re-rendered using the new template
+  name.
+
+  ## Setting the partial's context with `with`
+
+  The `partial` helper can be used in conjunction with the `with`
+  helper to set a context that will be used by the partial:
+
+  ```handlebars
+  {{#with currentUser}}
+    {{partial "user_info"}}
+  {{/with}}
   ```
 
   @method partial
@@ -27546,6 +27722,30 @@ Ember.Handlebars.registerHelper('template', function(name, options) {
 */
 
 Ember.Handlebars.registerHelper('partial', function(name, options) {
+
+  var context = (options.contexts && options.contexts.length) ? options.contexts[0] : this;
+
+  if (options.types[0] === "ID") {
+    // Helper was passed a property path; we need to
+    // create a binding that will re-render whenever
+    // this property changes.
+    options.fn = function(context, fnOptions) {
+      var partialName = Ember.Handlebars.get(context, name, fnOptions);
+      renderPartial(context, partialName, fnOptions);
+    };
+
+    return Ember.Handlebars.bind.call(context, name, options, true, exists);
+  } else {
+    // Render the partial right into parent template.
+    renderPartial(context, name, options);
+  }
+});
+
+function exists(value) {
+  return !Ember.isNone(value);
+}
+
+function renderPartial(context, name, options) {
   var nameParts = name.split("/"),
       lastPart = nameParts[nameParts.length - 1];
 
@@ -27560,8 +27760,8 @@ Ember.Handlebars.registerHelper('partial', function(name, options) {
 
   template = template || deprecatedTemplate;
 
-  template(this, { data: options.data });
-});
+  template(context, { data: options.data });
+}
 
 })();
 
@@ -27733,7 +27933,7 @@ var set = Ember.set, get = Ember.get;
   The internal class used to create text inputs when the `{{input}}`
   helper is used with `type` of `checkbox`.
 
-  See Handlebars.helpers.input for usage details.
+  See [handlebars.helpers.input](/api/classes/Ember.Handlebars.helpers.html#method_input)  for usage details.
 
   ## Direct manipulation of `checked`
 
@@ -27981,7 +28181,7 @@ var get = Ember.get, set = Ember.set;
   The internal class used to create text inputs when the `{{input}}`
   helper is used with `type` of `text`.
 
-  See [handlebars.helpers.input](Ember.Handlebars.helpers.html#method_input)  for usage details.
+  See [handlebars.helpers.input](/api/classes/Ember.Handlebars.helpers.html#method_input)  for usage details.
 
   ## Layout and LayoutName properties
 
@@ -29311,35 +29511,6 @@ function bootstrap() {
   Ember.Handlebars.bootstrap( Ember.$(document) );
 }
 
-function registerComponents(container) {
-  var templates = Ember.TEMPLATES, match;
-  if (!templates) { return; }
-
-  for (var prop in templates) {
-    if (match = prop.match(/^components\/(.*)$/)) {
-      registerComponent(container, match[1]);
-    }
-  }
-}
-
-
-function registerComponent(container, name) {
-  Ember.assert("You provided a template named 'components/" + name + "', but custom components must include a '-'", name.match(/-/));
-
-  var fullName = 'component:' + name;
-
-  container.injection(fullName, 'layout', 'template:components/' + name);
-
-  var Component = container.lookupFactory(fullName);
-
-  if (!Component) {
-    container.register(fullName, Ember.Component);
-    Component = container.lookupFactory(fullName);
-  }
-
-  Ember.Handlebars.helper(name, Component);
-}
-
 function registerComponentLookup(container) {
   container.register('component-lookup:main', Ember.ComponentLookup);
 }
@@ -29361,13 +29532,12 @@ Ember.onLoad('Ember.Application', function(Application) {
     initialize: bootstrap
   });
 
-  
-    Application.initializer({
-      name: 'registerComponentLookup',
-      after: 'domTemplates',
-      initialize: registerComponentLookup
-    });
+  Application.initializer({
+    name: 'registerComponentLookup',
+    after: 'domTemplates',
+    initialize: registerComponentLookup
   });
+});
 
 })();
 
@@ -31646,6 +31816,10 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
     this.router = this.constructor.router || this.constructor.map(Ember.K);
     this._activeViews = {};
     this._setupLocation();
+
+    if (get(this, 'namespace.LOG_TRANSITIONS_INTERNAL')) {
+      this.router.log = Ember.Logger.debug;
+    }
   },
 
   url: Ember.computed(function() {
@@ -31675,16 +31849,13 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
   didTransition: function(infos) {
     updatePaths(this);
 
-    
-      this._cancelLoadingEvent();
-    
+    this._cancelLoadingEvent();
+
     this.notifyPropertyChange('url');
 
-    
-      // Put this in the runloop so url will be accurate. Seems
-      // less surprising than didTransition being out of sync.
-      Ember.run.once(this, this.trigger, 'didTransition');
-    
+    // Put this in the runloop so url will be accurate. Seems
+    // less surprising than didTransition being out of sync.
+    Ember.run.once(this, this.trigger, 'didTransition');
 
     if (get(this, 'namespace').LOG_TRANSITIONS) {
       Ember.Logger.log("Transitioned into '" + Ember.Router._routePath(infos) + "'");
@@ -31744,13 +31915,6 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
     this.router.reset();
   },
 
-  willDestroy: function(){
-    var location = get(this, 'location');
-    location.destroy();
-
-    this._super.apply(this, arguments);
-  },
-
   _lookupActiveView: function(templateName) {
     var active = this._activeViews[templateName];
     return active && active[0];
@@ -31773,16 +31937,23 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
 
   _setupLocation: function() {
     var location = get(this, 'location'),
-        rootURL = get(this, 'rootURL'),
-        options = {};
+        rootURL = get(this, 'rootURL');
 
-    if (typeof rootURL === 'string') {
-      options.rootURL = rootURL;
+    if ('string' === typeof location && this.container) {
+      var resolvedLocation = this.container.lookup('location:' + location);
+
+      if ('undefined' !== typeof resolvedLocation) {
+        location = set(this, 'location', resolvedLocation);
+      } else {
+        // Allow for deprecated registration of custom location API's
+        var options = {implementation: location};
+
+        location = set(this, 'location', Ember.Location.create(options));
+      }
     }
 
-    if ('string' === typeof location) {
-      options.implementation = location;
-      location = set(this, 'location', Ember.Location.create(options));
+    if (typeof rootURL === 'string') {
+      location.rootURL = rootURL;
     }
   },
 
@@ -31800,8 +31971,6 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
       seen[name] = true;
 
       if (!handler) {
-        
-        
         container.register(routeName, DefaultRoute.extend());
         handler = container.lookup(routeName);
 
@@ -31871,9 +32040,6 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
 
     var transitionPromise = this.router[method].apply(this.router, args);
 
-    // Don't schedule loading state entry if user has already aborted the transition.
-    
-    
     transitionPromise.then(null, function(error) {
       if (error.name === "UnrecognizedURLError") {
         Ember.assert("The URL '" + error.message + "' did not match any routes in your application");
@@ -31888,21 +32054,18 @@ Ember.Router = Ember.Object.extend(Ember.Evented, {
 
   _scheduleLoadingEvent: function(transition, originRoute) {
     this._cancelLoadingEvent();
-    
-      this._loadingStateTimer = Ember.run.scheduleOnce('routerTransitions', this, '_fireLoadingEvent', transition, originRoute);
-    
+    this._loadingStateTimer = Ember.run.scheduleOnce('routerTransitions', this, '_fireLoadingEvent', transition, originRoute);
   },
 
   _fireLoadingEvent: function(transition, originRoute) {
-    
-      if (!this.router.activeTransition) {
-        // Don't fire an event if we've since moved on from
-        // the transition that put us in a loading state.
-        return;
-      }
+    if (!this.router.activeTransition) {
+      // Don't fire an event if we've since moved on from
+      // the transition that put us in a loading state.
+      return;
+    }
 
-      transition.trigger(true, 'loading', transition, originRoute);
-      },
+    transition.trigger(true, 'loading', transition, originRoute);
+  },
 
   _cancelLoadingEvent: function () {
     if (this._loadingStateTimer) {
@@ -31952,63 +32115,57 @@ var defaultActionHandlers = {
   },
 
   error: function(error, transition, originRoute) {
-    
+    // Attempt to find an appropriate error substate to enter.
+    var router = originRoute.router;
 
-      // Attempt to find an appropriate error substate to enter.
-      var router = originRoute.router;
-
-      var tryTopLevel = forEachRouteAbove(originRoute, transition, function(route, childRoute) {
-        var childErrorRouteName = findChildRouteName(route, childRoute, 'error');
-        if (childErrorRouteName) {
-          router.intermediateTransitionTo(childErrorRouteName, error);
-          return;
-        }
-        return true;
-      });
-
-      if (tryTopLevel) {
-        // Check for top-level error state to enter.
-        if (routeHasBeenDefined(originRoute.router, 'application_error')) {
-          router.intermediateTransitionTo('application_error', error);
-          return;
-        }
-      } else {
-        // Don't fire an assertion if we found an error substate.
+    var tryTopLevel = forEachRouteAbove(originRoute, transition, function(route, childRoute) {
+      var childErrorRouteName = findChildRouteName(route, childRoute, 'error');
+      if (childErrorRouteName) {
+        router.intermediateTransitionTo(childErrorRouteName, error);
         return;
       }
-    
+      return true;
+    });
+
+    if (tryTopLevel) {
+      // Check for top-level error state to enter.
+      if (routeHasBeenDefined(originRoute.router, 'application_error')) {
+        router.intermediateTransitionTo('application_error', error);
+        return;
+      }
+    } else {
+      // Don't fire an assertion if we found an error substate.
+      return;
+    }
 
     Ember.Logger.assert(false, 'Error while loading route: ' + Ember.inspect(error));
   },
 
   loading: function(transition, originRoute) {
-    
+    // Attempt to find an appropriate loading substate to enter.
+    var router = originRoute.router;
 
-      // Attempt to find an appropriate loading substate to enter.
-      var router = originRoute.router;
+    var tryTopLevel = forEachRouteAbove(originRoute, transition, function(route, childRoute) {
+      var childLoadingRouteName = findChildRouteName(route, childRoute, 'loading');
 
-      var tryTopLevel = forEachRouteAbove(originRoute, transition, function(route, childRoute) {
-        var childLoadingRouteName = findChildRouteName(route, childRoute, 'loading');
-
-        if (childLoadingRouteName) {
-          router.intermediateTransitionTo(childLoadingRouteName);
-          return;
-        }
-
-        // Don't bubble above pivot route.
-        if (transition.pivotHandler !== route) {
-          return true;
-        }
-      });
-
-      if (tryTopLevel) {
-        // Check for top-level loading state to enter.
-        if (routeHasBeenDefined(originRoute.router, 'application_loading')) {
-          router.intermediateTransitionTo('application_loading');
-          return;
-        }
+      if (childLoadingRouteName) {
+        router.intermediateTransitionTo(childLoadingRouteName);
+        return;
       }
-    
+
+      // Don't bubble above pivot route.
+      if (transition.pivotHandler !== route) {
+        return true;
+      }
+    });
+
+    if (tryTopLevel) {
+      // Check for top-level loading state to enter.
+      if (routeHasBeenDefined(originRoute.router, 'application_loading')) {
+        router.intermediateTransitionTo('application_loading');
+        return;
+      }
+    }
   }
 };
 
@@ -32098,41 +32255,6 @@ function updatePaths(router) {
   set(appController, 'currentRouteName', infos[infos.length - 1].name);
 }
 
-function scheduleLegacyLoadingRouteEntry(router) {
-  cancelLegacyLoadingRouteEntry(router);
-  if (router.router.activeTransition) {
-    router._legacyLoadingStateTimer = Ember.run.scheduleOnce('routerTransitions', null, enterLegacyLoadingRoute, router);
-  }
-}
-
-function enterLegacyLoadingRoute(router) {
-  var loadingRoute = router.router.getHandler('loading');
-  if (loadingRoute && !loadingRoute._loadingStateActive) {
-    if (loadingRoute.enter) { loadingRoute.enter(); }
-    if (loadingRoute.setup) { loadingRoute.setup(); }
-    loadingRoute._loadingStateActive = true;
-  }
-}
-
-function cancelLegacyLoadingRouteEntry(router) {
-  if (router._legacyLoadingStateTimer) {
-    Ember.run.cancel(router._legacyLoadingStateTimer);
-  }
-  router._legacyLoadingStateTimer = null;
-}
-
-function exitLegacyLoadingRoute(router) {
-
-  cancelLegacyLoadingRouteEntry(router);
-
-  var loadingRoute = router.router.getHandler('loading');
-
-  if (loadingRoute && loadingRoute._loadingStateActive) {
-    if (loadingRoute.exit) { loadingRoute.exit(); }
-    loadingRoute._loadingStateActive = false;
-  }
-}
-
 Ember.Router.reopenClass({
   router: null,
   map: function(callback) {
@@ -32142,10 +32264,6 @@ Ember.Router.reopenClass({
       router.callbacks = [];
       router.triggerEvent = triggerEvent;
       this.reopenClass({ router: router });
-    }
-
-    if (get(this, 'namespace.LOG_TRANSITIONS_INTERNAL')) {
-      router.log = Ember.Logger.debug;
     }
 
     var dsl = Ember.RouterDSL.map(function() {
@@ -32495,6 +32613,24 @@ Ember.Route = Ember.Object.extend(Ember.ActionHandler, {
       }
     });
     ```
+
+   Transition to a nested route
+
+   ```javascript
+   App.Router.map(function() {
+     this.resource('articles', { path: '/articles' }, function() {
+       this.route('new');
+     });
+   });
+
+   App.IndexRoute = Ember.Route.extend({
+     actions: {
+       transitionToNewArticle: function() {
+         this.transitionTo('articles.new');
+       }
+     }
+   });
+   ```
 
     Multiple Models Example
 
@@ -33673,13 +33809,11 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
           length = paths.length,
           path, i, normalizedPath;
 
-      
-        var linkTextPath = helperParameters.options.linkTextPath;
-        if (linkTextPath) {
-          normalizedPath = Ember.Handlebars.normalizePath(templateContext, linkTextPath, helperParameters.options.data);
-          this.registerObserver(normalizedPath.root, normalizedPath.path, this, this.rerender);
-        }
-      
+      var linkTextPath = helperParameters.options.linkTextPath;
+      if (linkTextPath) {
+        normalizedPath = Ember.Handlebars.normalizePath(templateContext, linkTextPath, helperParameters.options.data);
+        this.registerObserver(normalizedPath.root, normalizedPath.path, this, this.rerender);
+      }
 
       for(i=0; i < length; i++) {
         path = paths[i];
@@ -34211,23 +34345,21 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
 
     hash.disabledBinding = hash.disabledWhen;
 
-    
-      if (!options.fn) {
-        var linkTitle = params.shift();
-        var linkType = options.types.shift();
-        var context = this;
-        if (linkType === 'ID') {
-          options.linkTextPath = linkTitle;
-          options.fn = function() {
-            return Ember.Handlebars.get(context, linkTitle, options);
-          };
-        } else {
-          options.fn = function() {
-            return linkTitle;
-          };
-        }
+    if (!options.fn) {
+      var linkTitle = params.shift();
+      var linkType = options.types.shift();
+      var context = this;
+      if (linkType === 'ID') {
+        options.linkTextPath = linkTitle;
+        options.fn = function() {
+          return Ember.Handlebars.get(context, linkTitle, options);
+        };
+      } else {
+        options.fn = function() {
+          return linkTitle;
+        };
       }
-    
+    }
 
     hash.parameters = {
       context: this,
@@ -35185,6 +35317,8 @@ Ember.Location = {
     @param {Object} implementation of the `location` API
   */
   registerImplementation: function(name, implementation) {
+    Ember.deprecate('Using the Ember.Location.registerImplementation is no longer supported. Register your custom location implementation with the container instead.', false);
+
     this.implementations[name] = implementation;
   },
 
@@ -35214,6 +35348,7 @@ var get = Ember.get, set = Ember.set;
   @extends Ember.Object
 */
 Ember.NoneLocation = Ember.Object.extend({
+  implementation: 'none',
   path: '',
 
   /**
@@ -35289,8 +35424,6 @@ Ember.NoneLocation = Ember.Object.extend({
   }
 });
 
-Ember.Location.registerImplementation('none', Ember.NoneLocation);
-
 })();
 
 
@@ -35313,6 +35446,7 @@ var get = Ember.get, set = Ember.set;
   @extends Ember.Object
 */
 Ember.HashLocation = Ember.Object.extend({
+  implementation: 'hash',
 
   init: function() {
     set(this, 'location', get(this, 'location') || window.location);
@@ -35426,8 +35560,6 @@ Ember.HashLocation = Ember.Object.extend({
   }
 });
 
-Ember.Location.registerImplementation('hash', Ember.HashLocation);
-
 })();
 
 
@@ -35451,6 +35583,7 @@ var supportsHistoryState = window.history && 'state' in window.history;
   @extends Ember.Object
 */
 Ember.HistoryLocation = Ember.Object.extend({
+  implementation: 'history',
 
   init: function() {
     set(this, 'location', get(this, 'location') || window.location);
@@ -35649,8 +35782,6 @@ Ember.HistoryLocation = Ember.Object.extend({
     Ember.$(window).off('popstate.ember-location-'+guid);
   }
 });
-
-Ember.Location.registerImplementation('history', Ember.HistoryLocation);
 
 })();
 
@@ -36183,7 +36314,7 @@ DeprecatedContainer.prototype = {
   App = Ember.Application.create({
     customEvents: {
       // add support for the paste event
-      'paste: "paste"
+      paste: "paste"
     }
   });
   ```
@@ -36305,7 +36436,7 @@ var Application = Ember.Application = Ember.Namespace.extend(Ember.DeferredMixin
     App = Ember.Application.create({
       customEvents: {
         // add support for the paste event
-        'paste: "paste"
+        paste: "paste"
       }
     });
     ```
@@ -36830,10 +36961,7 @@ Ember.Application.reopenClass({
     container.optionsForType('component', { singleton: false });
     container.optionsForType('view', { singleton: false });
     container.optionsForType('template', { instantiate: false });
-
-    
-      container.optionsForType('helper', { instantiate: false });
-    
+    container.optionsForType('helper', { instantiate: false });
 
     container.register('application:main', namespace, { instantiate: false });
 
@@ -36845,6 +36973,10 @@ Ember.Application.reopenClass({
 
     container.register('router:main',  Ember.Router);
     container.injection('router:main', 'namespace', 'application:main');
+
+    container.register('location:hash', Ember.HashLocation);
+    container.register('location:history', Ember.HistoryLocation);
+    container.register('location:none', Ember.NoneLocation);
 
     container.injection('controller', 'target', 'router:main');
     container.injection('controller', 'namespace', 'application:main');
@@ -37511,7 +37643,6 @@ Ember Extension Support
  */
 var slice = [].slice,
     helpers = {},
-    originalMethods = {},
     injectHelpersCallbacks = [];
 
 /**
@@ -37621,10 +37752,6 @@ Ember.Test = {
   */
   unregisterHelper: function(name) {
     delete helpers[name];
-    if (originalMethods[name]) {
-      this.helperContainer[name] = originalMethods[name];
-    }
-    delete originalMethods[name];
     delete Ember.Test.Promise.prototype[name];
   },
 
@@ -37819,6 +37946,21 @@ Ember.Application.reopen({
   testHelpers: {},
 
   /**
+   This property will contain the original methods that were registered
+   on the `helperContainer` before `injectTestHelpers` is called.
+
+   When `removeTestHelpers` is called, these methods are restored to the
+   `helperContainer`.
+
+    @property originalMethods
+    @type {Object}
+    @default {}
+    @private
+  */
+  originalMethods: {},
+
+
+  /**
   This property indicates whether or not this application is currently in
   testing mode. This is set when `setupForTesting` is called on the current
   application.
@@ -37860,6 +38002,10 @@ Ember.Application.reopen({
     if (!Ember.Test.adapter) {
        Ember.Test.adapter = Ember.Test.QUnitAdapter.create();
     }
+
+    if (Ember.FEATURES.isEnabled('ember-testing-simple-setup')){
+      this.testingSetup = true;
+    }
   },
 
   /**
@@ -37894,7 +38040,7 @@ Ember.Application.reopen({
 
     this.testHelpers = {};
     for (var name in helpers) {
-      originalMethods[name] = this.helperContainer[name];
+      this.originalMethods[name] = this.helperContainer[name];
       this.testHelpers[name] = this.helperContainer[name] = helper(this, name);
       protoWrap(Ember.Test.Promise.prototype, name, helper(this, name), helpers[name].meta.wait);
     }
@@ -37903,7 +38049,8 @@ Ember.Application.reopen({
       injectHelpersCallbacks[i](this);
     }
 
-    Ember.RSVP.configure('onerror', onerror);
+    Ember.RSVP.on('error', onerror);
+    Ember.RSVP.off('error', Ember.RSVP.onerrorDefault);
   },
 
   /**
@@ -37920,11 +38067,12 @@ Ember.Application.reopen({
   */
   removeTestHelpers: function() {
     for (var name in helpers) {
-      this.helperContainer[name] = originalMethods[name];
+      this.helperContainer[name] = this.originalMethods[name];
       delete this.testHelpers[name];
-      delete originalMethods[name];
+      delete this.originalMethods[name];
     }
-    Ember.RSVP.configure('onerror', null);
+    Ember.RSVP.off('error', onerror);
+    Ember.RSVP.on('error', Ember.RSVP.onerrorDefault);
   }
 
 });
@@ -37994,8 +38142,8 @@ function isolate(fn, val) {
   }
 }
 
-function onerror(error) {
-  Ember.Test.adapter.exception(error);
+function onerror(event) {
+  Ember.Test.adapter.exception(event.detail);
 }
 
 })();
@@ -38011,6 +38159,19 @@ Ember.onLoad('Ember.Application', function(Application) {
       initialize: function(container, application){
         if (application.testing) {
           application.deferReadiness();
+        }
+      }
+    });
+  }
+
+  if (Ember.FEATURES.isEnabled('ember-testing-simple-setup')){
+    Application.initializer({
+      name: 'setupForTesting and injectTestHelpers when created with testing = true',
+
+      initialize: function(container, application){
+        if (application.testing && !application.testingSetup) {
+          application.setupForTesting();
+          application.injectTestHelpers();
         }
       }
     });
@@ -38187,6 +38348,23 @@ Test.onInjectHelpers(function() {
   });
 });
 
+function currentRouteName(app){
+  var appController = app.__container__.lookup('controller:application');
+
+  return get(appController, 'currentRouteName');
+}
+
+function currentPath(app){
+  var appController = app.__container__.lookup('controller:application');
+
+  return get(appController, 'currentPath');
+}
+
+function currentURL(app){
+  var router = app.__container__.lookup('router:main');
+
+  return get(router, 'location').getURL();
+}
 
 function visit(app, url) {
   if (Ember.FEATURES.isEnabled('ember-testing-lazy-routing')){
@@ -38220,6 +38398,19 @@ function click(app, selector, context) {
 
   Ember.run($el, 'mouseup');
   Ember.run($el, 'click');
+
+  return wait(app);
+}
+
+function triggerEvent(app, selector, context, event){
+  if (typeof method === 'undefined') {
+    event = context;
+    context = null;
+  }
+
+  var $el = findWithAssert(app, selector, context);
+
+  Ember.run($el, 'trigger', event);
 
   return wait(app);
 }
@@ -38446,6 +38637,84 @@ helper('findWithAssert', findWithAssert);
 */
 asyncHelper('wait', wait);
 asyncHelper('andThen', andThen);
+
+
+if (Ember.FEATURES.isEnabled('ember-testing-routing-helpers')){
+  /**
+    Returns the currently active route name.
+
+    Example:
+
+    ```
+    function validateRouteName(){
+      equal(currentRouteName(), 'some.path', "correct route was transitioned into.");
+    }
+
+    visit('/some/path').then(validateRouteName)
+
+    ```
+
+    @method currentRouteName
+    @return {Object} The name of the currently active route.
+  */
+  helper('currentRouteName', currentRouteName);
+
+  /**
+    Returns the current path.
+
+    Example:
+
+    ```
+    function validateURL(){
+      equal(currentPath(), 'some.path.index', "correct path was transitioned into.");
+    }
+
+    click('#some-link-id').then(validateURL);
+
+    ```
+
+    @method currentPath
+    @return {Object} The currently active path.
+  */
+  helper('currentPath', currentPath);
+
+  /**
+    Returns the current URL.
+
+    Example:
+
+    ```
+    function validateURL(){
+      equal(currentURL(), '/some/path', "correct URL was transitioned into.");
+    }
+
+    click('#some-link-id').then(validateURL);
+
+    ```
+
+    @method currentURL
+    @return {Object} The currently active URL.
+  */
+  helper('currentURL', currentURL);
+}
+
+if (Ember.FEATURES.isEnabled('ember-testing-triggerEvent-helper')) {
+  /**
+    Triggers the given event on the element identified by the provided selector.
+
+    Example:
+
+    ```javascript
+    triggerEvent('#some-elem-id', 'blur');
+    ```
+
+   @method triggerEvent
+   @param {String} selector jQuery selector for finding element on the DOM
+   @param {String} event The event to be triggered.
+   @return {RSVP.Promise}
+  */
+  asyncHelper('triggerEvent', triggerEvent);
+}
 
 })();
 

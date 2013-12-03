@@ -1,6 +1,15 @@
 export default Ember.Route.extend({
     model: function () {
-        return [
+        
+        var starredElements = [];
+        store.each(function(item, value){
+            starredElements.push(value);
+        });
+        
+
+        
+        
+        var types = [
             Em.Object.create({
                 name: 'classes',
                 text: 'Klassen'
@@ -14,5 +23,10 @@ export default Ember.Route.extend({
                 text: 'Räume'
             })
         ];
+        
+        return {
+          'starred': starredElements,
+          'types': types
+        };
     }
 });

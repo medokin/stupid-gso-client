@@ -1,14 +1,14 @@
 export default Ember.Route.extend({
     beforeModel: function(queryParams, transition){
-        var self = this;
         var controller = this.controllerFor('weeks');
         if(queryParams.week == undefined){
-            self.transitionTo('timetable', self.modelFor('element'), {queryParams: {week: controller.get('currentWeek')}});
+            this.transitionTo('timetable', this.modelFor('element'), {queryParams: {week: controller.get('currentWeek')}});
         }
 
     },
 
     model: function (params, queryParams, transition) {
+        console.log(params, queryParams, transition);
         var controller = this.controllerFor('timetable');
         var weeksController = this.controllerFor('weeks');
         var type = this.modelFor('type')
@@ -20,5 +20,15 @@ export default Ember.Route.extend({
         weeksController.set('selected', queryParams.week);
 
         return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+element+'/'+queryParams.week+'/week.json')
+    },
+    
+    renderTemplate: function() {
+        // Render default outlet   
+        this.render();
+        // render extra outlets
+        this.render("nav", {
+            outlet: "nav",
+            into: "application" // important when using at root level
+        });
     }
 });

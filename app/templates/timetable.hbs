@@ -1,10 +1,5 @@
-<div class="btn-group btn-group-justified">
-    {{#each week in weeks.content}}
-        {{#link-to 'timetable' type element week=week class='btn btn-default' role='button'}} KW: {{week}} {{/link-to}}
-    {{/each}}
-</div>
-<br/>
-{{#if notEmpty}}
+
+{{#if content}}
 
     <table class="table table-bordered table-condensed" style="vertical-align:bottom;">
         <thead>

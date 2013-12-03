@@ -2,6 +2,35 @@ export default Ember.ArrayController.extend({
     type: '',
     element: '',
     weeks: null,
+    isStarred: false,
+    
+    elementObserver: function(){
+        var hash = this.get('type')+this.get('element');
+        var star = store.get(hash);
+        if (star!== null) {
+            this.set('isStarred', true);
+        }
+        
+    }.observes('element'),
+    
+    actions: {
+        toggleStar: function(){
+            var hash = this.get('type')+this.get('element');
+            
+            if(this.get('isStarred')){
+                store.remove(hash);
+                
+            }else{
+                console.log('add')
+                store.set(hash, {
+                   element: this.get('element'),
+                   type: this.get('type')
+                });
+            }
+            
+            this.toggleProperty('isStarred');
+        }        
+    },
         
     filteredList: function(){
         var content = this.get('content');
@@ -34,9 +63,5 @@ export default Ember.ArrayController.extend({
 
         }
         return items;
-    }.property('content'),
-
-    notEmpty: function(){
-        return this.get('content').length
     }.property('content')
 });

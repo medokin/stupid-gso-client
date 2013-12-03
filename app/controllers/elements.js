@@ -1,4 +1,4 @@
-export default = Ember.ArrayController.extend({
+export default Ember.ArrayController.extend({
     type: null,
 
     actions: {
@@ -9,13 +9,19 @@ export default = Ember.ArrayController.extend({
         
     filterString: '',
         
-    filteredList: function(){
+    filterObserver: function(){
+        console.log();
         var search = this.get('filterString').toLowerCase();
-        var result =  this.get('content').filter(function(item){
-            var result = item.name.toLowerCase().indexOf(search) !== -1;
-
-            return result;
+        
+        this.get('content').forEach(function(item){
+            var match = item.name.toLowerCase().indexOf(search) !== -1;
+            if(match){
+                item.set('visible', true);
+                return;
+            }
+            item.set('visible', false);
+            
         });
-        return result;
-    }.property('content', 'filterString', 'content@each')
+
+    }.observes('content', 'filterString')
 });

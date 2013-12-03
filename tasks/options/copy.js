@@ -24,11 +24,19 @@ module.exports = {
     dest: 'tmp/result/assets'
   },
   
-  bootstrapFonts: {
-    expand: true,
-    cwd: 'vendor/bootstrap/fonts',
-    src: ['*'],
-    dest: 'tmp/result/assets/fonts'
+  fonts: {
+    files: [{
+        expand: true,
+        cwd: 'vendor/bootstrap/fonts',
+        src: ['*'],
+        dest: 'tmp/result/assets/fonts/bootstrap'
+    },
+    {
+        expand: true,
+        cwd: 'vendor/font-awesome/fonts',
+        src: ['*'],
+        dest: 'tmp/result/assets/fonts/font-awesome'
+    }]
   },
 
   // Assembles everything in `tmp/result`.
