@@ -3,3 +3,19 @@
 @icon-font-path: "fonts/bootstrap/";
 @fa-font-path:   "fonts/font-awesome/";
 
+.navbar-nav-no-collapse {
+  @media (max-width: @screen-xs-max) {
+    float: left;
+    margin: 0;
+
+    > li {
+      float: left;
+      > a {
+        padding-top: ((@navbar-height - @line-height-computed) / 2);
+        padding-bottom: ((@navbar-height - @line-height-computed) / 2);
+      }
+    }
+  }
+
+}
+

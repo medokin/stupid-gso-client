@@ -14,12 +14,13 @@
                     <i class="fa fa-refresh fa-spin"></i>
                 {{/if}}
                 </a>
+                {{outlet nav}}
             </div>
             
             
             
             <div class="collapse navbar-collapse">
-                {{outlet nav}}
+                
                 <ul class="nav navbar-nav navbar-right">
                     <li>{{#link-to 'pages.about'}} About {{/link-to}}</li>
                     <li class="dropdown">
