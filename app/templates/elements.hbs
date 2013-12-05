@@ -1,11 +1,11 @@
-{{input type='text' class='form-control' value=controller.filterString placeholder='Suche'}}
+{{input type='text' class='form-control' value=controller.filterString placeholder='Suche' tabindex='1'}}
 
 <br/>
 
 <div class="list-group">
     {{#each item in content}}
         {{#if item.visible}}
-            {{#link-to 'timetable' type item.name week=false class='list-group-item'}} {{item.name}} {{/link-to}}
+            {{#link-to 'timetable' type item.name week=week class='list-group-item'}} {{item.name}} {{/link-to}}
         {{/if}}
     {{/each}}
 </div>

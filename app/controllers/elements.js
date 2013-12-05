@@ -24,4 +24,6 @@ export default Ember.ArrayController.extend({
         });
 
     }.observes('content', 'filterString')
+    
+    
 });

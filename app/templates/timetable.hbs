@@ -1,6 +1,6 @@
 
 {{#if content}}
-
+<div class="table-responsive">
     <table class="table table-bordered table-condensed" style="vertical-align:bottom;">
         <thead>
         <th>#</th>
@@ -17,7 +17,11 @@
                 {{#each item in row}}
                     {{#if item}}
                         <td {{bind-attr class="item.red:warning"}}>
-                            {{{item.content}}}
+                            {{#if item.isHour}}
+                                {{lesson-time item.content}}
+                            {{else}}
+                                {{{item.content}}}
+                            {{/if}}
                         </td>
                     {{else}}
                         <td>
@@ -30,6 +34,7 @@
         {{/each}}
         </tbody>
     </table>
+</div>
 {{else}}
     <div class="alert alert-info">Keine Stunden für KW: {{weeks.selected}} eigetragen.</div>
 {{/if}}

@@ -37,12 +37,13 @@ export default Ember.ArrayController.extend({
         var items = [];
 
         // Array für die Stunden und Tage aufbauen
-        for (var i = 0; i <= 15; i++){
+        for (var i = 0; i <= 14; i++){
             items[i] = [];
             for (var j = 0; j <=5; j++){
                 if(j == 0){
                     items[i][j] = Ember.Object.create({
-                        content: i+1+"."
+                        content: i+1,
+                        isHour: true
                     })
                 }else{
                     items[i][j] = null;

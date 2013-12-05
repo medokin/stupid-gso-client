@@ -1,11 +1,13 @@
 {{#if model.starred}}
-<h5><span class="glyphicon glyphicon-star"></span> Favoriten</h5>
+<h5><i class="fa fa-star"></i> Favoriten</h5>
 <div class="list-group">
     {{#each item in model.starred}}
         {{#link-to 'timetable' item.type item.element class='list-group-item'}} {{item.element}} {{/link-to}}
     {{/each}}
 </div>
+
 <h5>Typen</h5>
+
 {{/if}}
 
 <div class="list-group">

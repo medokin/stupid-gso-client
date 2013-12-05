@@ -1,8 +1,19 @@
 @import "vendor/bootstrap/less/bootstrap.less";
 @import "vendor/font-awesome/less/font-awesome.less";
+
+// Change font paths
 @icon-font-path: "fonts/bootstrap/";
 @fa-font-path:   "fonts/font-awesome/";
 
+
+
+html {overflow-y: scroll;}
+
+.content{
+    margin-top: (@navbar-height + 10);
+}
+
+// No collapseble nav
 .navbar-nav-no-collapse {
   @media (max-width: @screen-xs-max) {
     float: left;
@@ -13,9 +24,20 @@
       > a {
         padding-top: ((@navbar-height - @line-height-computed) / 2);
         padding-bottom: ((@navbar-height - @line-height-computed) / 2);
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
   }
-
 }
+
+// Change Navbar Toggle icon
+.navbar-toggle {
+  .fa-ellipsis-v {
+    display: block;
+
+    height: 12px;
+  }
+}
+
 
