@@ -26,7 +26,7 @@ export default Ember.Route.extend({
         // Render default outlet   
         this.render();
         // render extra outlets
-        this.render("nav", {
+        this.render("nav-timetable", {
             outlet: "nav",
             into: "application" // important when using at root level
         });

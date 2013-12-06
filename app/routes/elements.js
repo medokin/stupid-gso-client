@@ -19,5 +19,15 @@ export default Ember.Route.extend({
 
             return result;
         });
+    },
+    
+    renderTemplate: function() {
+        // Render default outlet   
+        this.render();
+        // render extra outlets
+        this.render("nav-elements", {
+            outlet: "form",
+            into: "application" // important when using at root level
+        });
     }
 });

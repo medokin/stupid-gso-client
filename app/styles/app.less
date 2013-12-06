@@ -1,13 +1,18 @@
 @import "vendor/bootstrap/less/bootstrap.less";
 @import "vendor/font-awesome/less/font-awesome.less";
-
+@import "variables.less";
 // Change font paths
-@icon-font-path: "fonts/bootstrap/";
 @fa-font-path:   "fonts/font-awesome/";
 
 
 
-html {overflow-y: scroll;}
+html {
+    overflow-y: scroll;
+}
+
+body {
+    margin-bottom: 100px;
+}
 
 .content{
     margin-top: (@navbar-height + 10);
@@ -31,6 +36,26 @@ html {overflow-y: scroll;}
   }
 }
 
+.navbar-form{
+  @media (max-width: @screen-xs-max) {
+    margin:0;
+    border: 0;
+  }
+}
+
+.search-spacer{
+  @media (max-width: @screen-xs-max) {
+    margin-top: 50px;
+  }
+}
+
+table th{
+    background-color: #f2f2f2;
+}
+table td{
+    background-color: #fff;
+}
+
 // Change Navbar Toggle icon
 .navbar-toggle {
   .fa-ellipsis-v {
@@ -38,6 +63,18 @@ html {overflow-y: scroll;}
 
     height: 12px;
   }
+}
+
+.list-group-item{
+    .fa{
+        margin: 4px;
+    }
+}
+
+.navbar-toggle{
+    .fa {
+        color: @navbar-default-link-color;
+    }
 }
 
 
