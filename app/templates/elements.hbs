@@ -5,7 +5,7 @@
 <div class="list-group">
     {{#each item in content}}
         {{#if item.visible}}
-            {{#link-to 'timetable' type item.name week=week class='list-group-item'}} {{item.name}} {{/link-to}}
+            {{#link-to 'timetable' type item.name week=week class='list-group-item'}} {{item.name}} <i class="fa fa-chevron-right pull-right"></i> {{/link-to}}
         {{/if}}
     {{/each}}
 </div>

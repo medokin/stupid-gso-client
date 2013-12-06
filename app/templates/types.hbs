@@ -2,7 +2,7 @@
 <h5><i class="fa fa-star"></i> Favoriten</h5>
 <div class="list-group">
     {{#each item in model.starred}}
-        {{#link-to 'timetable' item.type item.element class='list-group-item'}} {{item.element}} {{/link-to}}
+        {{#link-to 'timetable' item.type item.element class='list-group-item'}} {{item.element}} <i class="fa fa-chevron-right pull-right"></i> {{/link-to}}
     {{/each}}
 </div>
 
@@ -12,7 +12,7 @@
 
 <div class="list-group">
     {{#each item in model.types}}
-        {{#link-to 'elements' item.name class='list-group-item'}} {{item.text}} {{/link-to}}
+        {{#link-to 'elements' item.name class='list-group-item'}} {{item.text}} <i class="fa fa-chevron-right pull-right"></i> {{/link-to}}
     {{/each}}
 </div>
 
