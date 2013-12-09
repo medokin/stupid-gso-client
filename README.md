@@ -1,4 +1,4 @@
-Welcome to StupidGSO!	{#welcome}
+Welcome to StupidGSO!
 =====================
 ----------
 
