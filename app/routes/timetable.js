@@ -8,7 +8,6 @@ export default Ember.Route.extend({
     },
 
     model: function (params, queryParams, transition) {
-        console.log(params, queryParams, transition);
         var controller = this.controllerFor('timetable');
         var weeksController = this.controllerFor('weeks');
         var type = this.modelFor('type')

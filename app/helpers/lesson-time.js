@@ -1,6 +1,5 @@
 export default Ember.Handlebars.makeBoundHelper(function(lesson) {
     var starttime = moment({hour: 7, minute: 45});
-    console.log(lesson);
     if(lesson == 1){
         return new Handlebars.SafeString(lesson + ". <br>" + starttime.format('HH:mm') + ' <br> ' + starttime.add("m", 45).format('HH:mm'));
     }

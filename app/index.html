@@ -66,7 +66,10 @@
 
 </head>
 <body>
-  <div id="test">Laden...</div>
+  <div id="test">
+  Laden...<br>
+  <p>Seite lädt nicht? <a href="mailto:nikodemjaworski@gmail.com">Meld dich!</a> Schreibe bitte dazu um welches Gerät und Browser es sich handelt.</p>
+  </div>
     <noscript>
       <h1>Bitte aktivieren Sie Javascript um diese Seite korrekt anzuzeigen.</h1>
     </noscript>
@@ -84,6 +87,17 @@
     window.App = require('appkit/app')["default"].create();
   </script>
   <!-- @endif -->
+  
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-46263398-1', 'medok.in');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>

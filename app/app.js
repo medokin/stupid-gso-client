@@ -1,5 +1,7 @@
 import Resolver from 'resolver';
 
+
+
 Ember.FEATURES["query-params"] = true;
 
 var App = Ember.Application.extend({
