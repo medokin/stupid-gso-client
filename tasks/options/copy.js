@@ -27,7 +27,7 @@ module.exports = {
   fonts: {
     files: [{
         expand: true,
-        cwd: 'vendor/bootstrap/fonts',
+        cwd: 'vendor/bootstrap/dist/fonts',
         src: ['*'],
         dest: 'tmp/result/assets/fonts/bootstrap'
     },
