@@ -16,6 +16,7 @@ export default Ember.Route.extend({
         controller.set('type', type);
         controller.set('element', element);
         controller.set('weeks', weeksController);
+        controller.set('currentWeek', queryParams.week);
         weeksController.set('selected', queryParams.week);
 
         return Ember.$.getJSON('http://api.gso.medok.in/timetable/'+type+'/'+element+'/'+queryParams.week+'/week.json');

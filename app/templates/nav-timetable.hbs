@@ -1,9 +1,15 @@
 <ul class="nav navbar-nav navbar-left navbar-nav-no-collapse">
-    {{#each week in weeks.content}}
-        {{#linkTo "timetable" type element week=week tagName="li" href=false}}
-            {{#linkTo "timetable" type element week=week}} {{week}} {{/linkTo}}
-        {{/linkTo}}
-    {{/each}}
+    <li>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">KW: {{currentWeek}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            {{#each week in weeks.content}}
+                {{#linkTo "timetable" type element week=week tagName="li" href=false}}
+                    {{#linkTo "timetable" type element week=week}} {{week}} {{/linkTo}}
+                {{/linkTo}}
+            {{/each}}
+        </ul>
+    </li>
+
 
     <li>
         <a {{action 'toggleStar'}} >

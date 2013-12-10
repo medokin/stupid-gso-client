@@ -2,6 +2,7 @@ export default Ember.ArrayController.extend({
     type: '',
     element: '',
     weeks: null,
+    currentWeek: null,
     isStarred: false,
     
     elementObserver: function(){
