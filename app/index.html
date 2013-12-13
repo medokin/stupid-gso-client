@@ -12,7 +12,7 @@
 
   <!-- for more details visit: https://github.com/yeoman/grunt-usemin -->
 
-  <!-- build:js(tmp/result) assets/vendor.min.js -->
+  <!-- build:js(tmp/result) assets/scripts.min.js -->
 
     <script src="/vendor/jquery/jquery.js"></script>
 
@@ -33,13 +33,9 @@
     <script src="/vendor/fastclick/lib/fastclick.js"></script>
     <script src="/vendor/momentjs/min/moment.min.js"></script>
 
-  <!-- endbuild -->
-
-  <!-- build:js(tmp/result) assets/app.min.js -->
 
     <script src="/assets/app.js"></script>
     <script src="/assets/templates.js"></script>
-
   <!-- endbuild -->
 
   <!-- @if tests=true -->
@@ -67,7 +63,7 @@
 </head>
 <body>
   <div id="test">
-  Laden...<br>
+  <i class="fa fa-refresh fa-spin"></i>Laden...<br>
   <p>Seite lädt nicht? <a href="mailto:nikodemjaworski@gmail.com">Meld dich!</a> Schreibe bitte dazu um welches Gerät und Browser es sich handelt.</p>
   </div>
     <noscript>
