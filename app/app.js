@@ -1,7 +1,8 @@
 import Resolver from 'resolver';
 
 
-window.host = 'http://test.medok.in:8081/';
+window.host = 'http://api.gso.medok.in/';
+
 Ember.FEATURES["query-params"] = true;
 
 var App = Ember.Application.extend({
