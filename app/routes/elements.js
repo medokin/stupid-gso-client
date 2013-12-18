@@ -9,12 +9,15 @@ export default Ember.Route.extend({
         this.controllerFor('elements').set('type', type);
         this.controllerFor('elements').set('filterString', '');
         
-        return Ember.$.getJSON('http://api.gso.medok.in/'+type+'.json').then(function(data){
+        return Ember.$.getJSON(window.host + 'v1/elements/'+type).then(function(data){
             var result = [];
 
             data.forEach(function(value){
-                var item = Ember.Object.extend(value);
-                result.push(item.create({visible: false}));
+                var item = Ember.Object.extend();
+                result.push(item.create({
+                  name: value,
+                  visible: false
+                }));
             });
 
             return result;

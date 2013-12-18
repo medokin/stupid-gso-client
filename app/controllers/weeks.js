@@ -3,7 +3,7 @@ export default Ember.ArrayController.extend({
 
     contentObserver: function(){
         var self = this;
-        Ember.$.getJSON('http://api.gso.medok.in/weeks-available.json').then(function(weeks){
+        Ember.$.getJSON(window.host + 'v1/weeks').then(function(weeks){
             var selected = self.get('selected');
             var result = [];
             weeks.forEach(function(item){

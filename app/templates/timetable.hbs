@@ -16,11 +16,13 @@
             <tr>
                 {{#each item in row}}
                     {{#if item}}
-                        <td {{bind-attr class="item.red:warning"}}>
+                        <td {{bind-attr class="item.changed:warning"}}>
                             {{#if item.isHour}}
                                 {{lesson-time item.content}}
                             {{else}}
-                                {{{item.content}}}
+                                {{#each textRow in item.text}}
+                                  {{textRow}}<br>
+                                {{/each}}
                             {{/if}}
                         </td>
                     {{else}}
