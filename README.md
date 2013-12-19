@@ -3,6 +3,8 @@ Welcome to StupidGSO-Client!
 
 [![Code Climate](https://codeclimate.com/github/medokin/stupid-gso-client.png)](https://codeclimate.com/github/medokin/stupid-gso-client)
 
+Live: [gso.medok.in][2]
+
 How to install
 ---------
 
@@ -55,3 +57,4 @@ You can also use your own server instance. The code can be found here: [StupidGS
 
 
   [1]: https://github.com/medokin/stupid-gso-server
+  [2]: http://gso.medok.in
