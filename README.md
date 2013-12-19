@@ -1,23 +1,26 @@
-Welcome to StupidGSO!
-=====================
-----------
+Welcome to StupidGSO-Client!
+====================
 
+[![Code Climate](https://codeclimate.com/github/medokin/stupid-gso-client.png)](https://codeclimate.com/github/medokin/stupid-gso-client)
 
-How to...
+How to install
 ---------
 
 - Make sure you have **node**, **npm** and **git** installed.
 - Install necessary global npm packages
-```
+
 npm install -g grunt-cli bower
-```
+
 - Get the Code
+
 ```
 git clone https://medokin@bitbucket.org/medokin/stupid-gso-client.git
 
 cd stupid-gso-client
 ```
+
 - Get project dependencies
+
 ```
 npm install
 
@@ -44,3 +47,11 @@ Building
 grunt dist
 ```
 You can find the app in /dist
+
+Server
+---------
+You can also use your own server instance. The code can be found here: [StupidGSO-Server][1]
+
+
+
+  [1]: https://github.com/medokin/stupid-gso-server
