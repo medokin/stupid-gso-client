@@ -1,50 +1,42 @@
 {
-  "name": "stupid-gso",
-  "namespace": "appkit",
+  "name": "stupid-gso-client",
   "version": "0.0.0",
+  "description": "Small description for stupid-gso-client goes here",
   "private": true,
   "directories": {
     "doc": "doc",
-    "test": "test"
+    "test": "tests"
   },
   "scripts": {
-    "start": "grunt server",
-    "build": "grunt build:debug",
-    "test": "grunt test:ci",
-    "postinstall": "bower install"
+    "start": "ember server",
+    "build": "ember build",
+    "test": "ember test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/stefanpenner/ember-app-kit.git"
+  "repository": "",
+  "engines": {
+    "node": ">= 0.10.0"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "express": "~3.4.2",
-    "lockfile": "~>0.3.0",
-    "bower": "~1.2.7",
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.9",
-    "load-grunt-config": "~0.5.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-clean": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.2",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-cssmin": "~0.6.1",
-    "grunt-preprocess": "~3.0.1",
-    "grunt-es6-module-transpiler": "~0.5.1",
-    "grunt-concat-sourcemap": "~0.3.0",
-    "grunt-concurrent": "~0.3.1",
-    "grunt-usemin": "~0.1.12",
-    "grunt-rev": "~0.1.0",
-    "grunt-ember-templates": "~0.4.15",
-    "grunt-karma": "~0.5",
-    "karma": "~0.9.4",
-    "karma-qunit": "~0.0.3",
-    "karma-coverage": "~0.0.3",
-    "karma-phantomjs-launcher": "~0.0.2",
-    "grunt-contrib-less": "~0.8.2"
+    "broccoli-asset-rev": "^2.0.0",
+    "broccoli-autoprefixer": "^2.1.0",
+    "broccoli-sass": "^0.4.0",
+    "ember-cli": "0.2.0-beta.1",
+    "ember-cli-app-version": "0.3.1",
+    "ember-cli-babel": "^4.0.0",
+    "ember-cli-dependency-checker": "0.0.7",
+    "ember-cli-htmlbars": "0.7.4",
+    "ember-cli-ic-ajax": "0.1.1",
+    "ember-cli-inject-live-reload": "^1.3.0",
+    "ember-cli-qunit": "0.3.8",
+    "ember-cli-uglify": "1.0.1",
+    "ember-data": "1.0.0-beta.15",
+    "ember-export-application-global": "^1.0.2",
+    "ember-moment": "1.1.0",
+    "ember-paper": "0.0.16",
+    "express": "^4.8.5",
+    "glob": "^4.0.5",
+    "liquid-fire": "^0.17.0"
   }
 }

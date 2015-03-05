@@ -2,19 +2,13 @@
   "predef": [
     "document",
     "window",
-    "location",
-    "setTimeout",
-    "Ember",
-    "Em",
-    "DS",
-    "$"
+    "-Promise"
   ],
-  "node" : false,
-  "browser" : false,
-  "boss" : true,
-  "curly": false,
+  "browser": true,
+  "boss": true,
+  "curly": true,
   "debug": false,
-  "devel": false,
+  "devel": true,
   "eqeqeq": true,
   "evil": true,
   "forin": false,
@@ -33,5 +27,6 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true
+  "esnext": true,
+  "unused": true
 }
