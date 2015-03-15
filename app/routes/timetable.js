@@ -28,10 +28,9 @@ export default Ember.Route.extend({
       params.year = moment().year();
     }
 
-    console.log(params);
     var type = this.get('types');
     return Ember.RSVP.hash({
-      timetable: Ember.$.getJSON('http://localhost:8888/v2/timetable/'+params.id+'/'+type[params.type]+'/'+params.year+'/'+params.week),
+      timetable: Ember.$.getJSON('http://api.gso.medok.in/v2/timetable/'+params.id+'/'+type[params.type]+'/'+params.year+'/'+params.week),
       grid: Ember.$.getJSON('http://api.gso.medok.in:80/v1/timegrid')
     }).then(function(data){
       return {

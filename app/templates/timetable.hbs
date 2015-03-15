@@ -5,7 +5,7 @@
         {{/paper-sidenav-toggle}}
 
         <h2>Stundenplan</h2>
-        
+
         {{#paper-button action="previousWeek"}}{{paper-icon icon="chevron-left" size="lg"}}{{/paper-button}}
         <h2>Woche: {{currentWeek}}</h2>
         {{#paper-button action="nextWeek"}}{{paper-icon icon="chevron-right" size="lg"}}{{/paper-button}}
@@ -14,7 +14,7 @@
 
 {{#paper-content classNames="md-whiteframe-z1"}}
 
-    <table class="responsive-table bordered centered" style="vertical-align:bottom;">
+    <table class="bordered centered" style="vertical-align:bottom;">
         <thead>
           <tr>
             <th width="4%">#</th>
@@ -33,7 +33,7 @@
                     {{#if item}}
                         <td {{bind-attr class=item.code}}>
                             {{#if item.isHour}}
-                                {{item.startTime.hour}} {{item.startTime.minutes}}
+                                {{item.startTime.hour}}:{{item.startTime.minutes}}
                             {{else}}
                                 {{#each teacher in item.teachers}}
                                   {{teacher.name}}<br>
