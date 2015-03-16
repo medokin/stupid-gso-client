@@ -1,19 +1,17 @@
-var Router = Ember.Router.extend(); // ensure we don't share routes between all Router instances
+import Ember from 'ember';
+import config from './config/environment';
 
-Router.map(function () {
-    this.resource('types', {path: '/'});
+var Router = Ember.Router.extend({
+  location: config.locationType
+});
 
-    this.resource('type', {path: '/:type_name'}, function() {
-        this.resource('elements', {path: '/elements'});
-        this.resource('element', {path: '/:element_name'}, function(){
-            this.resource('timetable', {path: '/timetable', queryParams: ['week']});
-        });
-    });
-
-    this.resource('pages', {path: '/p'}, function(){
-        this.route('about');
-        this.route('legal');
-    });
+Router.map(function() {
+  this.route('classes');
+  this.route('timetable', {path: '/:type/:id' });
+  this.route('teachers');
+  this.route('rooms');
+  this.route('imprint');
+  this.route('colors');
 });
 
 export default Router;

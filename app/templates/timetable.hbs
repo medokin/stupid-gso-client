@@ -1,14 +1,29 @@
+{{#paper-toolbar}}
+      <div class="md-toolbar-tools">
+        {{#paper-sidenav-toggle}}
+          {{paper-icon icon="menu" size="lg"}}
+        {{/paper-sidenav-toggle}}
 
-{{#if content}}
-<div class="table-responsive">
-    <table class="table table-bordered table-condensed" style="vertical-align:bottom;">
+        <h2>Stundenplan</h2>
+
+        {{#paper-button action="previousWeek"}}{{paper-icon icon="chevron-left" size="lg"}}{{/paper-button}}
+        <h2>Woche: {{currentWeek}}</h2>
+        {{#paper-button action="nextWeek"}}{{paper-icon icon="chevron-right" size="lg"}}{{/paper-button}}
+      </div>
+{{/paper-toolbar}}
+
+{{#paper-content classNames="md-whiteframe-z1"}}
+
+    <table class="bordered centered" style="vertical-align:bottom;">
         <thead>
-        <th width="50px">#</th>
-        <th>Mo</th>
-        <th>Di</th>
-        <th>Mi</th>
-        <th>Do</th>
-        <th>Fr</th>
+          <tr>
+            <th width="50px">#</th>
+            <th>Mo</th>
+            <th>Di</th>
+            <th>Mi</th>
+            <th>Do</th>
+            <th>Fr</th>
+          </tr>
         </thead>
         <tbody>
 
@@ -16,12 +31,21 @@
             <tr>
                 {{#each item in row}}
                     {{#if item}}
-                        <td {{bind-attr class="item.changed:warning"}}>
+                        <td {{bind-attr class=item.code}}>
                             {{#if item.isHour}}
-                                {{lesson-time item.content}}
+                                {{item.startTime.hour}}:{{item.startTime.minutes}}
                             {{else}}
-                                {{#each textRow in item.text}}
-                                  {{textRow}}<br>
+                                {{#each teacher in item.teachers}}
+                                  {{teacher.name}}<br>
+                                {{/each}}
+                                {{#each subject in item.subjects}}
+                                  {{subject.name}}<br>
+                                {{/each}}
+                                {{#each class in item.classes}}
+                                  {{class.name}}<br>
+                                {{/each}}
+                                {{#each room in item.rooms}}
+                                  {{room.name}}<br>
                                 {{/each}}
                             {{/if}}
                         </td>
@@ -36,10 +60,6 @@
         {{/each}}
         </tbody>
     </table>
-</div>
-{{else}}
-    <div class="alert alert-info">Keine Stunden für KW: {{weeks.selected}} eigetragen.</div>
-{{/if}}
 
 
-
+{{/paper-content}}

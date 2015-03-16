@@ -1,69 +1,77 @@
-export default Ember.ArrayController.extend({
-    type: '',
-    element: '',
-    weeks: null,
-    currentWeek: null,
-    isStarred: false,
-    
-    elementObserver: function(){
-        var hash = this.get('type')+this.get('element');
-        var star = store.get(hash);
-        if (star!== null) {
-            this.set('isStarred', true);
-        }
-        
-    }.observes('element'),
-    
-    actions: {
-        toggleStar: function(){
-            var hash = this.get('type')+this.get('element');
-            
-            if(this.get('isStarred')){
-                store.remove(hash);
-                
-            }else{
-                console.log('add')
-                store.set(hash, {
-                   element: this.get('element'),
-                   type: this.get('type')
-                });
-            }
-            
-            this.toggleProperty('isStarred');
-        }        
+import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  queryParams: ['week', 'year'],
+  week: null,
+  year: null,
+
+  actions: {
+    previousWeek: function(){
+      var week = this.get('currentWeek');
+
+      this.set('week', parseInt(this.get('currentWeek')) - 1)
     },
-        
-    filteredList: function(){
-        var content = this.get('content');
-        var items = [];
 
-        // Array für die Stunden und Tage aufbauen
-        for (var i = 0; i <= 14; i++){
-            items[i] = [];
-            for (var j = 0; j <=5; j++){
-                if(j == 0){
-                    items[i][j] = Ember.Object.create({
-                        content: i+1,
-                        isHour: true
-                    })
-                }else{
-                    items[i][j] = null;
-                }
+    nextWeek: function(){
+      var week = this.get('currentWeek');
 
+      this.set('week', parseInt(this.get('currentWeek')) + 1)
 
-            }
+    }
+  },
+
+  currentWeek: function(){
+    if(this.get('week')){
+      return this.get('week');
+    }else {
+      return moment().week();
+    }
+  }.property('week'),
+
+  getHash: function(lesson){
+    return md5(
+      lesson.startTime.hour.toString() +
+      lesson.startTime.minutes.toString() +
+      lesson.endTime.hour.toString() +
+      lesson.endTime.minutes.toString()
+    )
+  },
+
+  filteredList: function(){
+    var items = [],
+    grid  = this.get('model.grid'),
+    timetable = this.get('model.timetable');
+
+    var maxHours;
+
+    for (var iday = 0; iday < grid.length; iday++){
+      for(var ilesson = 0; ilesson < grid[iday].lessons.length; ilesson++){
+        var lesson = grid[iday].lessons[ilesson];
+        if(!lesson) break;
+        var hash = md5(this.getHash(lesson));
+        lesson['isHour'] = true;
+        items[ilesson] = [];
+        items[ilesson][0] = lesson;
+        for (var itest = 1; itest < 6; itest++){
+          items[ilesson][itest] = {};
         }
+      }
+    }
 
-        // Content den Stunden/Tagen zuordnen
-        for (var i = 0; i<= content.length; i++){
-
-            var item = content[i];
-
-            if(item != undefined){
-                items[item.hour-1][item.day] = item;
-            }
-
+    for (ilesson = 0; ilesson < timetable.length; ilesson++){
+      var lesson = timetable[ilesson];
+      //console.log(lesson);
+      var weekday = moment(lesson.date).weekday();
+      for(var iitem = 0; iitem < items.length; iitem++){
+        if(items[iitem][0].startTime.hour == lesson.startTime.hour && items[iitem][0].startTime.minutes == lesson.startTime.minutes){
+          items[iitem][weekday] = lesson;
         }
-        return items;
-    }.property('content')
+      }
+    }
+
+    console.log(items);
+
+    return items;
+
+  }.property('model')
 });

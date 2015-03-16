@@ -1,0 +1,35 @@
+{{#paper-toolbar}}
+      <div class="md-toolbar-tools">
+        {{#paper-sidenav-toggle}}
+          {{paper-icon icon="menu" size="lg"}}
+        {{/paper-sidenav-toggle}}
+
+        <h2>Farben</h2>
+      </div>
+{{/paper-toolbar}}
+
+{{#paper-card}}
+  {{#paper-card-content}}
+
+  <p>
+    Im Stundenplan werden Veränderungen gegenüber dem regulärem Unterricht in folgenden Farben dargestellt.
+  </p>
+
+  <table>
+    <tr>
+      <td class="roomChange">
+        Raumwechsel
+      </td>
+      <td class="shift">
+        Verlegt
+      </td>
+      <td class="irregular">
+        Vertretung
+      </td>
+      <td class="cancelled">
+        Ausfall
+      </td>
+    </tr>
+  </table>
+  {{/paper-card-content}}
+{{/paper-card}}

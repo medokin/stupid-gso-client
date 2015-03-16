@@ -1,60 +1,53 @@
-Welcome to StupidGSO-Client!
-====================
+# Stupid-gso-client
 
-[![Code Climate](https://codeclimate.com/github/medokin/stupid-gso-client.png)](https://codeclimate.com/github/medokin/stupid-gso-client)
+This README outlines the details of collaborating on this Ember application.
+A short introduction of this app could easily go here.
 
-Live: [gso.medok.in][2]
+## Prerequisites
 
-How to install
----------
+You will need the following things properly installed on your computer.
 
-- Make sure you have **node**, **npm** and **git** installed.
-- Install necessary global npm packages
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) (with NPM)
+* [Bower](http://bower.io/)
+* [Ember CLI](http://www.ember-cli.com/)
+* [PhantomJS](http://phantomjs.org/)
 
-npm install -g grunt-cli bower
+## Installation
 
-- Get the Code
+* `git clone <repository-url>` this repository
+* change into the new directory
+* `npm install`
+* `bower install`
 
-```
-git clone https://medokin@bitbucket.org/medokin/stupid-gso-client.git
+## Running / Development
 
-cd stupid-gso-client
-```
+* `ember server`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
 
-- Get project dependencies
+### Code Generators
 
-```
-npm install
+Make use of the many generators for code, try `ember help generate` for more details
 
-bower install
-```
+### Running Tests
 
-Running test server
----------
-```
-grunt server
-```
-The server should start on http://localhost:8000
+* `ember test`
+* `ember test --server`
 
-or run with productive build (takes longer!)
+### Building
 
-```
-grunt server:dist
-```
+* `ember build` (development)
+* `ember build --environment production` (production)
 
+### Deploying
 
-Building
----------
-```
-grunt dist
-```
-You can find the app in /dist
+Specify what it takes to deploy your app.
 
-Server
----------
-You can also use your own server instance. The code can be found here: [StupidGSO-Server][1]
+## Further Reading / Useful Links
 
+* [ember.js](http://emberjs.com/)
+* [ember-cli](http://www.ember-cli.com/)
+* Development Browser Extensions
+  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
-
-  [1]: https://github.com/medokin/stupid-gso-server
-  [2]: http://gso.medok.in

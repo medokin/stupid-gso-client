@@ -1,0 +1,29 @@
+{{#paper-toolbar}}
+      <div class="md-toolbar-tools">
+        {{#paper-sidenav-toggle}}
+          {{paper-icon icon="menu" size="lg"}}
+        {{/paper-sidenav-toggle}}
+
+        <h2>Klassen</h2>
+
+        {{paper-text label="Suche" value=filterString}}
+      </div>
+{{/paper-toolbar}}
+
+
+{{#paper-content classNames="md-whiteframe-z1"}}
+    {{#paper-list}}
+      {{#each item in model}}
+      {{#if item.visible}}
+        {{#link-to 'timetable' 'class' item.id class="no-style"}}
+          {{#paper-item}}
+            {{#paper-tile-content}}
+              <h3>{{item.name}}</h3>
+            {{/paper-tile-content}}
+          {{/paper-item}}
+          {{paper-divider}}
+          {{/link-to}}
+        {{/if}}
+      {{/each}}
+    {{/paper-list}}
+  {{/paper-content}}
