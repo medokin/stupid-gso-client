@@ -52,6 +52,10 @@ body {
     background-color: #e0e0e0;
 }
 
+.sidenav ul li a.active {
+    background-color: #c7c7c7;
+}
+
 .nav-button {
     display: block;
     width: 48px;
