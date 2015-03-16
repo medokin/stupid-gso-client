@@ -30,6 +30,13 @@ body {
     margin: 0;
     padding: 0;
     list-style-type: none;
+
+    .spacer {
+      height: 1px;
+      margin: 9px 0;
+      overflow: hidden;
+      background-color: #e5e5e5;
+    }
 }
 
 .sidenav ul li > a {
@@ -78,5 +85,11 @@ a.no-style {
 md-toolbar{
   md-input-group {
     margin: -10px 0 0 20px;
+  }
+}
+
+md-sidenav-toggle{
+  md-icon {
+    margin-right: 15px;
   }
 }

@@ -10,6 +10,8 @@ Router.map(function() {
   this.route('timetable', {path: '/:type/:id' });
   this.route('teachers');
   this.route('rooms');
+  this.route('imprint');
+  this.route('colors');
 });
 
 export default Router;

@@ -52,7 +52,7 @@ export default Ember.Controller.extend({
         lesson['isHour'] = true;
         items[ilesson] = [];
         items[ilesson][0] = lesson;
-        for (var itest = 1; itest < 14; itest++){
+        for (var itest = 1; itest < 6; itest++){
           items[ilesson][itest] = {};
         }
       }
