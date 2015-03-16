@@ -33,23 +33,28 @@ td, th {
   display: table-cell;
   text-align: left;
   vertical-align: middle;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
   background-clip: padding-box; }
+
+td {
+  height: 85px;
+}
 
 td.cancelled {
   background-color: #F44336;
+  border-color: #F44336 !important;
   color: #fff;
 }
 td.irregular {
   background-color: #FF9800;
+  border-color: #FF9800 !important;
 }
 td.shift {
   background-color: #CDDC39;
+  border-color: #CDDC39 !important;
 }
 td.roomChange {
   background-color: #FFEB3B;
+  border-color: #FFEB3B !important;
 }
 
 @media only screen and (max-width : 992px) {

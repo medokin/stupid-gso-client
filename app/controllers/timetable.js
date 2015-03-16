@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
   queryParams: ['week', 'year'],
   week: null,
   year: null,
+  exists: false,
 
   actions: {
     previousWeek: function(){
@@ -38,11 +39,13 @@ export default Ember.Controller.extend({
   },
 
   filteredList: function(){
+    var self = this;
     var items = [],
     grid  = this.get('model.grid'),
     timetable = this.get('model.timetable');
 
-    var maxHours;
+
+    this.set('exists', false);
 
     for (var iday = 0; iday < grid.length; iday++){
       for(var ilesson = 0; ilesson < grid[iday].lessons.length; ilesson++){
@@ -64,12 +67,11 @@ export default Ember.Controller.extend({
       var weekday = moment(lesson.date).weekday();
       for(var iitem = 0; iitem < items.length; iitem++){
         if(items[iitem][0].startTime.hour == lesson.startTime.hour && items[iitem][0].startTime.minutes == lesson.startTime.minutes){
+          self.set('exists', true);
           items[iitem][weekday] = lesson;
         }
       }
     }
-
-    console.log(items);
 
     return items;
 

@@ -1,0 +1,10 @@
+
+{{#paper-card}}
+  {{#paper-card-content}}
+  <h3>Es ist ein Fehler aufgetreten</h3>
+  <p>
+    {{model.responseJSON.message}}
+    {{log model.responseJSON.message}}
+  </p>
+  {{/paper-card-content}}
+{{/paper-card}}

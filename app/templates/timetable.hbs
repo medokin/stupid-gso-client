@@ -12,7 +12,9 @@
       </div>
 {{/paper-toolbar}}
 
+{{#if exists}}
 {{#paper-content classNames="md-whiteframe-z1"}}
+
 
     <table class="bordered centered" style="vertical-align:bottom;">
         <thead>
@@ -60,6 +62,12 @@
         {{/each}}
         </tbody>
     </table>
-
-
 {{/paper-content}}
+
+{{else}}
+  {{#paper-card}}
+    {{#paper-card-content}}
+    <h3>Kein Unterricht diese Woche</h3>
+    {{/paper-card-content}}
+  {{/paper-card}}
+{{/if}}
