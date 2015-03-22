@@ -61,8 +61,6 @@ export default Ember.Controller.extend({
       }
     }
 
-    console.log(items)
-
     for (ilesson = 0; ilesson < timetable.length; ilesson++){
       var lesson = timetable[ilesson];
       //console.log(lesson);
