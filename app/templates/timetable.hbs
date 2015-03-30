@@ -33,7 +33,7 @@
             <tr>
                 {{#each item in row}}
                     {{#if item}}
-                        <td {{bind-attr class=item.code}}>
+                        <td class="{{item.code}}">
                             {{#if item.isHour}}
                                 {{item.startTime.hour}}:{{item.startTime.minutes}}
                             {{else}}
