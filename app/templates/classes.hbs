@@ -6,20 +6,19 @@
 
         <h2>Klassen</h2>
 
-        {{paper-text label="Suche" value=filterString}}
+        {{paper-input label="Suche" value=filterString}}
       </div>
 {{/paper-toolbar}}
 
+{{log model}}
 
 {{#paper-content classNames="md-whiteframe-z1"}}
     {{#paper-list}}
-      {{#each item in model}}
+      {{#each model as |item|}}
       {{#if item.visible}}
         {{#link-to 'timetable' 'class' item.id class="no-style"}}
           {{#paper-item}}
-            {{#paper-tile-content}}
               <h3>{{item.name}}</h3>
-            {{/paper-tile-content}}
           {{/paper-item}}
           {{paper-divider}}
           {{/link-to}}

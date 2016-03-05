@@ -29,24 +29,24 @@
         </thead>
         <tbody>
 
-        {{#each row in filteredList}}
+        {{#each filteredList as |row|}}
             <tr>
-                {{#each item in row}}
+                {{#each row as |item|}}
                     {{#if item}}
                         <td class="{{item.code}}">
                             {{#if item.isHour}}
                                 {{item.startTime.hour}}:{{item.startTime.minutes}}
                             {{else}}
-                                {{#each teacher in item.teachers}}
+                                {{#each item.teachers as |teacher|}}
                                   {{teacher.name}}<br>
                                 {{/each}}
-                                {{#each subject in item.subjects}}
+                                {{#each item.subjects as |subject|}}
                                   {{subject.name}}<br>
                                 {{/each}}
-                                {{#each class in item.classes}}
+                                {{#each item.classes as |class|}}
                                   {{class.name}}<br>
                                 {{/each}}
-                                {{#each room in item.rooms}}
+                                {{#each item.rooms as |room|}}
                                   {{room.name}}<br>
                                 {{/each}}
                             {{/if}}
