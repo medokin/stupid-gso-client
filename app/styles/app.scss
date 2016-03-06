@@ -85,6 +85,12 @@ a.no-style {
 @import 'tables';
 @import 'loader';
 
+.md-toolbar-tools {
+  md-input-container{
+    margin-left: 20px;
+  }
+}
+
 
 md-toolbar{
   md-input-group {

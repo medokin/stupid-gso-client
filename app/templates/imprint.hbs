@@ -1,7 +1,9 @@
 {{#paper-toolbar}}
       <div class="md-toolbar-tools">
-        {{#paper-sidenav-toggle}}
-          {{paper-icon icon="menu" size="lg"}}
+        {{#paper-sidenav-toggle as |toggle|}}
+          {{#paper-button target=toggle action="toggleMenu" icon-button=true}}
+            {{paper-icon icon="menu" size="lg"}}
+          {{/paper-button}}
         {{/paper-sidenav-toggle}}
 
         <h2>Impressum</h2>
