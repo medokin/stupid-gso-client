@@ -1,6 +1,6 @@
-FROM node:5
+FROM node:0.12-onbuild
 
-RUN npm install ember-cli@2.4.1 bower node-static -g
+RUN npm install ember-cli bower node-static -g
 
 run bower install --allow-root
 
